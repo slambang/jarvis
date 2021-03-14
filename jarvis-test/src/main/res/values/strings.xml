@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Jarvis Client Test</string>
+
+    <string name="get_field_value">Get</string>
+    <string name="push_config">Push Jarvis config</string>
+</resources>

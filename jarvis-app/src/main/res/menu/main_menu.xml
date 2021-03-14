@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".view.main.MainActivity">
+
+    <group
+        android:id="@+id/menu_group_top"
+        android:checkableBehavior="all">
+
+        <item
+            android:id="@+id/menu_active"
+            android:checkable="true"
+            android:title="@string/menu_item_active"
+            app:showAsAction="never" />
+
+        <item
+            android:id="@+id/menu_lock"
+            android:checkable="true"
+            android:title="@string/menu_item_locked"
+            app:showAsAction="never" />
+    </group>
+
+    <group
+        android:id="@+id/menu_group_bottom"
+        android:checkableBehavior="none">
+
+        <item
+            android:id="@+id/menu_delete"
+            android:checkable="false"
+            android:title="@string/menu_item_delete_all"
+            app:showAsAction="never" />
+
+        <item
+            android:id="@+id/menu_help"
+            android:checkable="false"
+            android:title="@string/menu_item_help"
+            app:showAsAction="never" />
+    </group>
+</menu>

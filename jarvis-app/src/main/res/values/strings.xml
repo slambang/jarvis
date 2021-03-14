@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">Jarvis</string>
+
+    <!-- Main View -->
+    <string name="no_fields_message">No fields.\n\nMake sure Jarvis is unlocked and then push a configuration using JarvisClient from your own app.</string>
+
+    <!-- Menu -->
+    <string name="menu_item_active">Active</string>
+    <string name="menu_item_locked">Locked</string>
+    <string name="menu_item_help">Help</string>
+    <string name="menu_item_delete_all">Delete config</string>
+
+    <!-- Toolbar -->
+    <string name="toolbar_subtitle_locked">@string/menu_item_locked</string>
+    <string name="toolbar_subtitle_unlocked">Unlocked</string>
+    <string name="toolbar_subtitle_active">@string/menu_item_active</string>
+    <string name="toolbar_subtitle_inactive">Inactive</string>
+    <string name="toolbar_subtitle_template" formatted="false">%s | %s</string>
+
+    <!-- CLear dialog -->
+    <string name="clear_fields_dialog_message">This will delete the config and clear any overridden values.</string>
+    <string name="clear_fields_dialog_ok">Delete</string>
+    <string name="clear_fields_dialog_cancel">Cancel</string>
+
+    <!-- Edit dialog -->
+    <string name="edit_dialog_save">Save</string>
+    <string name="edit_dialog_set_default">Set default</string>
+    <string name="edit_dialog_published">Published</string>
+
+    <!-- Validation -->
+    <string name="validation_min_value">Min is %s.</string>
+    <string name="validation_max_value">Max is %s.</string>
+    <string name="validation_min_length">Min length is %s.</string>
+    <string name="validation_max_length">Max length is %s.</string>
+    <string name="validation_empty_not_allowed">This field cannot be empty.</string>
+    <string name="validation_string_regex_failed">Regex failed:  %s</string>
+</resources>
