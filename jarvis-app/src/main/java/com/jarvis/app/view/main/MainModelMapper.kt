@@ -1,11 +1,12 @@
 package com.jarvis.app.view.main
 
 import com.jarvis.app.R
-import com.jarvis.app.data.settings.JarvisAppSettings
+import com.jarvis.app.data.JarvisAppSettings
 import com.jarvis.app.view.util.ResourceProvider
 import com.jarvis.client.data.*
+import javax.inject.Inject
 
-class MainModelMapper(
+class MainModelMapper @Inject constructor(
     private val validatorMapper: ValidatorMapper,
     private val resources: ResourceProvider
 ) {

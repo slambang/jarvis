@@ -1,10 +1,11 @@
 package com.jarvis.app.domain.fields
 
-import com.jarvis.app.data.fields.JarvisFieldDao
-import com.jarvis.app.data.fields.JarvisFieldEntity
+import com.jarvis.app.data.database.JarvisFieldDao
+import com.jarvis.app.data.database.JarvisFieldEntity
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class JarvisFieldRepository(
+class JarvisFieldRepository @Inject constructor(
     private val jarvisFieldDao: JarvisFieldDao
 ) {
     fun refreshConfig(fieldsEntities: List<JarvisFieldEntity>) {

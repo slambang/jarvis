@@ -12,6 +12,7 @@ import androidx.core.view.isVisible
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.jarvis.app.R
 import com.jarvis.app.view.main.*
+import javax.inject.Inject
 
 /**
  * TODO
@@ -19,7 +20,7 @@ import com.jarvis.app.view.main.*
  *  signed/unsigned
  *  Help dialog
  */
-class EditFieldDialogFactory {
+class EditFieldDialogFactory @Inject constructor() {
 
     fun getEditFieldDialog(
         item: FieldItemViewModel<*>,

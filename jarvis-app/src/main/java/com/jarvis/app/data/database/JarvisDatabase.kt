@@ -1,4 +1,4 @@
-package com.jarvis.app.data.fields
+package com.jarvis.app.data.database
 
 import android.content.Context
 import androidx.room.Database
@@ -9,7 +9,7 @@ import androidx.room.RoomDatabase
     version = 1,
     entities = [JarvisFieldEntity::class]
 )
-internal abstract class JarvisDatabase : RoomDatabase() {
+abstract class JarvisDatabase : RoomDatabase() {
 
     abstract val jarvisFieldDao: JarvisFieldDao
 

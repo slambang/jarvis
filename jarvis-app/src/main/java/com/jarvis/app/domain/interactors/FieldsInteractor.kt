@@ -8,8 +8,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import java.io.InputStream
+import javax.inject.Inject
 
-class FieldsInteractor(
+class FieldsInteractor @Inject constructor(
     private val jsonMapper: AppJsonMapper,
     private val jarvisFieldRepository: JarvisFieldRepository,
 ) {

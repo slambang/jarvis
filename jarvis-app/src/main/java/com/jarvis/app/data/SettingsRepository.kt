@@ -1,18 +1,22 @@
-package com.jarvis.app.data.settings
+package com.jarvis.app.data
 
-import android.content.SharedPreferences
+import android.content.Context
 import com.jarvis.app.BuildConfig
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.*
+import javax.inject.Inject
 
 data class JarvisAppSettings(
     val isJarvisActive: Boolean,
     val isJarvisLocked: Boolean
 )
 
-class SettingsRepository(
-    private val prefs: SharedPreferences
+class SettingsRepository @Inject constructor(
+    @ApplicationContext context: Context
 ) {
-    private val _state: MutableStateFlow<JarvisAppSettings> = MutableStateFlow(getLatestModel())
+    private val prefs = context.getSharedPreferences("jarvis_settings", Context.MODE_PRIVATE)
+
+    private val _state = MutableStateFlow(getLatestModel())
     val toFlow: Flow<JarvisAppSettings>
         get() = _state
 

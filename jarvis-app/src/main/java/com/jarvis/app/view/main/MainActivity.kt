@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import androidx.core.view.MenuCompat
 import androidx.core.view.isVisible
+import androidx.activity.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,13 +20,16 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.jarvis.app.R
 import com.jarvis.app.view.main.editfielddialog.EditFieldDialogFactory
 import com.jarvis.app.view.main.recyclerview.ConfigItemListAdapter
-import org.koin.android.ext.android.inject
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
-    private val viewModel: MainActivityViewModel by viewModel()
-    private val editFieldDialogFactory: EditFieldDialogFactory by inject()
+    private val viewModel: MainActivityViewModel by viewModels()
+
+    @Inject
+    lateinit var editFieldDialogFactory: EditFieldDialogFactory
 
     private lateinit var configListAdapter: ConfigItemListAdapter
 

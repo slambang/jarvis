@@ -4,7 +4,7 @@
     package="com.jarvis.app">
 
     <application
-        android:name="com.jarvis.app.App"
+        android:name="com.jarvis.app.JarvisApp"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"

@@ -3,10 +3,12 @@ package com.jarvis.app.view.main
 import androidx.lifecycle.*
 import com.jarvis.app.domain.interactors.FieldsInteractor
 import com.jarvis.app.domain.interactors.SettingsInteractor
-import kotlinx.coroutines.Dispatchers
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MainActivityViewModel(
+@HiltViewModel
+class MainActivityViewModel @Inject constructor(
     private val mapper: MainModelMapper,
     private val settingsInteractor: SettingsInteractor,
     private val fieldsInteractor: FieldsInteractor
@@ -37,13 +39,13 @@ class MainActivityViewModel(
         newValue: Any,
         isPublished: Boolean
     ) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             fieldsInteractor.onFieldUpdated(item.fieldDomain, newValue, isPublished)
         }
     }
 
     fun clearConfigs() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             fieldsInteractor.deleteAllFields()
         }
     }

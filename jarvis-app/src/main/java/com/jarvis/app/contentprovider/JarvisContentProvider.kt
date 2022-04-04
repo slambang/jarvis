@@ -6,12 +6,13 @@ import android.util.Log
 import com.jarvis.app.BuildConfig
 import com.jarvis.app.contentprovider.util.ReadOnlyContentProvider
 import com.jarvis.app.domain.fields.JarvisContentProviderController
-import org.koin.android.ext.android.inject
 import java.lang.RuntimeException
 
 class JarvisContentProvider : ReadOnlyContentProvider() {
 
-    private val controller: JarvisContentProviderController by inject()
+    private val controller: JarvisContentProviderController by lazy {
+        JarvisContentProviderEntryPoint.getController(context!!)
+    }
 
     override fun onCreate(): Boolean = true
 

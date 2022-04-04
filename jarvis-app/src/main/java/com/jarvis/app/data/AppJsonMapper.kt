@@ -1,13 +1,14 @@
 package com.jarvis.app.data
 
-import com.jarvis.app.data.fields.JarvisFieldEntity
+import com.jarvis.app.data.database.JarvisFieldEntity
 import com.jarvis.client.data.*
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.*
 import java.io.InputStream
+import javax.inject.Inject
 
 @OptIn(ExperimentalSerializationApi::class)
-class AppJsonMapper {
+class AppJsonMapper @Inject constructor() {
     fun readConfig(inputStream: InputStream): JarvisConfig =
         Json.decodeFromStream(inputStream)
 

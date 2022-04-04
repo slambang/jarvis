@@ -4,8 +4,9 @@ import com.jarvis.app.domain.interactors.FieldsInteractor
 import com.jarvis.app.domain.interactors.SettingsInteractor
 import com.jarvis.client.data.StringListField
 import java.io.InputStream
+import javax.inject.Inject
 
-class JarvisContentProviderController(
+class JarvisContentProviderController @Inject constructor(
     private val fieldsInteractor: FieldsInteractor,
     private val settingsInteractor: SettingsInteractor
 ) {

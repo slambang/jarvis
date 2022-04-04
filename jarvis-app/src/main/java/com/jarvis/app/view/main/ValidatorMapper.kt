@@ -3,8 +3,9 @@ package com.jarvis.app.view.main
 import com.jarvis.app.R
 import com.jarvis.app.view.util.ResourceProvider
 import com.jarvis.client.data.*
+import javax.inject.Inject
 
-class ValidatorMapper(
+class ValidatorMapper @Inject constructor(
     private val resources: ResourceProvider
 ) {
     fun getStringFieldValidator(field: StringField): (String) -> String? =
