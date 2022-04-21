@@ -14,7 +14,7 @@ data class JarvisAppSettings(
 class SettingsRepository @Inject constructor(
     @ApplicationContext context: Context
 ) {
-    private val prefs = context.getSharedPreferences("jarvis_settings", Context.MODE_PRIVATE)
+    private val prefs = context.getSharedPreferences("jarvis_app_settings", Context.MODE_PRIVATE)
 
     private val _state = MutableStateFlow(getLatestModel())
     val toFlow: Flow<JarvisAppSettings>

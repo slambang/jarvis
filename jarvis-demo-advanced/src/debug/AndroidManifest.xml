@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.jarvis.demo.advanced">
+
+    <!-- Only seen by the `debug` build variant. -->
+    <!-- Will be merged with the debug app's manifest. -->
+    <application tools:ignore="MissingApplicationIcon">
+
+        <!-- This is needed so the Jarvis Client can send your app's config to the Jarvis App. -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.jarvis_config_provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/jarvis_client_file_paths" />
+        </provider>
+    </application>
+</manifest>

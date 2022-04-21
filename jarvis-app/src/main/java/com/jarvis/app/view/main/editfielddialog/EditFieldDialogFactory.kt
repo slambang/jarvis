@@ -2,6 +2,7 @@ package com.jarvis.app.view.main.editfielddialog
 
 import android.content.Context
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.FrameLayout
@@ -14,12 +15,6 @@ import com.jarvis.app.R
 import com.jarvis.app.view.main.*
 import javax.inject.Inject
 
-/**
- * TODO
- *  Range slider
- *  signed/unsigned
- *  Help dialog
- */
 class EditFieldDialogFactory @Inject constructor() {
 
     fun getEditFieldDialog(
@@ -44,8 +39,10 @@ class EditFieldDialogFactory @Inject constructor() {
             .create()
 
         with(dialog) {
-            // TODO This causes the weird click/dismiss issue at the top of the dialog!
-            window?.setBackgroundDrawableResource(R.drawable.edit_dialog_dialog_background)
+            window?.setLayout(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
 
             setOnShowListener {
                 val saveButton = getButton(AlertDialog.BUTTON_POSITIVE)
@@ -114,10 +111,10 @@ class EditFieldDialogFactory @Inject constructor() {
         onFieldEmpty: (Boolean) -> Unit,
         context: Context
     ): EditFieldView = when (item) {
-        is StringFieldItemViewModel -> EditStringFieldView(item, onFieldEmpty, context)
-        is LongFieldItemViewModel -> EditLongFieldView(item, onFieldEmpty, context)
-        is DoubleFieldItemViewModel -> EditDoubleFieldView(item, onFieldEmpty, context)
-        is BooleanFieldItemViewModel -> EditBooleanFieldView(item, context)
-        is StringListFieldItemViewModel -> EditStringListFieldView(item, context)
+        is StringFieldItemViewModel -> EditStringFieldView(context, item, onFieldEmpty)
+        is LongFieldItemViewModel -> EditLongFieldView(context, item, onFieldEmpty)
+        is DoubleFieldItemViewModel -> EditDoubleFieldView(context, item, onFieldEmpty)
+        is BooleanFieldItemViewModel -> EditBooleanFieldView(context, item)
+        is StringListFieldItemViewModel -> EditStringListFieldView(context, item)
     }
 }

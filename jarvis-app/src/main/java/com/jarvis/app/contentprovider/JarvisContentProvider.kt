@@ -96,7 +96,7 @@ class JarvisContentProvider : ReadOnlyContentProvider() {
     }
 
     companion object {
-        private const val TAG = "[JARVIS APP]"
+        private const val TAG = "[JARVIS]"
 
         private const val PATH_VALUE = "value"
         private const val JARVIS_CONFIG_FILE_URI = "jarvis_config_file_uri"

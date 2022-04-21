@@ -27,64 +27,20 @@ class UpdateFieldUseCase @Inject constructor(
         isPublished: Boolean
     ): JarvisField<*> =
         when (jarvisField) {
+
             is StringField ->
-                StringField(
-                    jarvisField.type,
-                    jarvisField.name,
-                    newValue as String,
-                    jarvisField.defaultValue,
-                    jarvisField.description,
-                    isPublished,
-                    jarvisField.hint,
-                    jarvisField.minLength,
-                    jarvisField.maxLength,
-                    jarvisField.regex
-                )
+                jarvisField.copy(value = newValue as String, isPublished = isPublished)
+
             is LongField ->
-                LongField(
-                    jarvisField.type,
-                    jarvisField.name,
-                    newValue as Long,
-                    jarvisField.defaultValue,
-                    jarvisField.description,
-                    isPublished,
-                    jarvisField.hint,
-                    jarvisField.min,
-                    jarvisField.max,
-                    jarvisField.asRange
-                )
+                jarvisField.copy(value = newValue as Long, isPublished = isPublished)
+
             is DoubleField ->
-                DoubleField(
-                    jarvisField.type,
-                    jarvisField.name,
-                    newValue as Double,
-                    jarvisField.defaultValue,
-                    jarvisField.description,
-                    isPublished,
-                    jarvisField.hint,
-                    jarvisField.min,
-                    jarvisField.max,
-                    jarvisField.asRange
-                )
+                jarvisField.copy(value = newValue as Double, isPublished = isPublished)
+
             is BooleanField ->
-                BooleanField(
-                    jarvisField.type,
-                    jarvisField.name,
-                    newValue as Boolean,
-                    jarvisField.defaultValue,
-                    jarvisField.description,
-                    isPublished
-                )
+                jarvisField.copy(value = newValue as Boolean, isPublished = isPublished)
+
             is StringListField ->
-                StringListField(
-                    jarvisField.type,
-                    jarvisField.name,
-                    jarvisField.value,
-                    jarvisField.defaultValue,
-                    jarvisField.description,
-                    isPublished,
-                    jarvisField.defaultSelection,
-                    newValue as Int
-                )
+                jarvisField.copy(currentSelection = newValue as Int, isPublished = isPublished)
         }
 }

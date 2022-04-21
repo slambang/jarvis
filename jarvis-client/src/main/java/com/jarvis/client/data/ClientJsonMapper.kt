@@ -3,6 +3,7 @@ package com.jarvis.client.data
 import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.*
+import java.lang.RuntimeException
 
 class ClientJsonMapper {
     fun mapToJsonString(config: JarvisConfig): String =
@@ -19,6 +20,6 @@ object JarvisFieldSerializer :
             DoubleField::class.java.simpleName -> DoubleField.serializer()
             BooleanField::class.java.simpleName -> BooleanField.serializer()
             StringListField::class.java.simpleName -> StringListField.serializer()
-            else -> throw Exception("Unknown JarvisField type: $element")
+            else -> throw RuntimeException("Unknown JarvisField type: $element")
         }
 }

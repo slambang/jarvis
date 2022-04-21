@@ -1,0 +1,45 @@
+plugins {
+    id "com.android.application"
+    id "kotlin-android"
+}
+
+android {
+    compileSdkVersion 32
+    buildToolsVersion "32.0.0"
+
+    defaultConfig {
+        applicationId "com.jarvis.demo.advanced"
+        minSdkVersion minimum_supported_android_version
+        targetSdkVersion 32
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.debug
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_11
+    }
+}
+
+dependencies {
+    /**
+     * NOTE: The Jarvis Client dependency is only included in `debug` builds.
+     * NOTE: Switch this to depend on the published (live) or local Jarvis Client version.
+     */
+    debugImplementation project(":jarvis-client") // local
+//    debugImplementation "com.github.slambang:jarvis:v1.0.0" // latest published
+
+    implementation "io.insert-koin:koin-android:3.1.6"
+    implementation "com.google.android.material:material:1.5.0"
+}

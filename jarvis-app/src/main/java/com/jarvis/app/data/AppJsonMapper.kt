@@ -9,6 +9,7 @@ import javax.inject.Inject
 
 @OptIn(ExperimentalSerializationApi::class)
 class AppJsonMapper @Inject constructor() {
+
     fun readConfig(inputStream: InputStream): JarvisConfig =
         Json.decodeFromStream(inputStream)
 

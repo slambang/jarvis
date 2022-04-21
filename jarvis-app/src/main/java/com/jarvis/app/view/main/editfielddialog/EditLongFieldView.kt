@@ -10,9 +10,9 @@ import com.jarvis.app.view.main.LongFieldItemViewModel
 import com.jarvis.app.view.util.toSafeLong
 
 class EditLongFieldView(
+    context: Context,
     private val item: LongFieldItemViewModel,
-    private val onFieldEmpty: (Boolean) -> Unit,
-    context: Context
+    private val onFieldEmpty: (Boolean) -> Unit
 ) : EditFieldView {
 
     private var container: View =
@@ -34,12 +34,6 @@ class EditLongFieldView(
 
     override val value: Any
         get() = textInput.editText!!.text.toString().toSafeLong(item.defaultValue)
-
-    override var error: String = ""
-        set(value) {
-            field = value
-            textInput.error = value
-        }
 
     override var isPublished: Boolean = item.isPublished
         set(value) {

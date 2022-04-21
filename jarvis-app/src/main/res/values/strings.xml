@@ -2,7 +2,7 @@
     <string name="app_name">Jarvis</string>
 
     <!-- Main View -->
-    <string name="no_fields_message">No fields.\n\nMake sure Jarvis is unlocked and then push a configuration using JarvisClient from your own app.</string>
+    <string name="no_config_message">No config.\n\nEnsure the Jarvis App is installed and unlocked.\n\nEnsure the Jarvis config is pushed from your app to the Jarvis App.</string>
 
     <!-- Menu -->
     <string name="menu_item_active">Active</string>

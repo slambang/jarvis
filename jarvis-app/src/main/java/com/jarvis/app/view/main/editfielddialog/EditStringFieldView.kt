@@ -9,9 +9,9 @@ import com.jarvis.app.R
 import com.jarvis.app.view.main.StringFieldItemViewModel
 
 class EditStringFieldView(
+    context: Context,
     private val item: StringFieldItemViewModel,
-    private val onFieldEmpty: (Boolean) -> Unit,
-    context: Context
+    private val onFieldEmpty: (Boolean) -> Unit
 ) : EditFieldView {
 
     private val container =
@@ -33,12 +33,6 @@ class EditStringFieldView(
 
     override val value: Any
         get() = textInput.editText!!.text.toString()
-
-    override var error: String = ""
-        set(value) {
-            field = value
-            textInput.error = value
-        }
 
     override var isPublished: Boolean = item.isPublished
         set(value) {

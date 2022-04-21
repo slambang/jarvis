@@ -8,8 +8,8 @@ import com.jarvis.app.R
 import com.jarvis.app.view.main.StringListFieldItemViewModel
 
 class EditStringListFieldView(
-    private val item: StringListFieldItemViewModel,
-    context: Context
+    context: Context,
+    private val item: StringListFieldItemViewModel
 ) : EditFieldView {
 
     private val container =
@@ -30,8 +30,6 @@ class EditStringListFieldView(
 
     override val value: Any
         get() = spinner.selectedItemPosition
-
-    override var error: String = ""
 
     override var isPublished: Boolean = item.isPublished
         set(value) {

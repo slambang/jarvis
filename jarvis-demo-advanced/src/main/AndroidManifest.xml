@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.jarvis.app.test">
+    package="com.jarvis.demo.advanced">
 
     <application
+        android:name=".App"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -11,9 +12,8 @@
         android:theme="@style/Theme.JarvisTestApp">
 
         <activity
-            android:name="com.jarvis.app.test.TestActivity"
+            android:name=".MainActivity"
             android:exported="true"
-            android:label="@string/app_name"
             android:theme="@style/Theme.JarvisTestApp.NoActionBar">
 
             <intent-filter>
@@ -21,17 +21,5 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <!-- This can be defined only for debug builds -->
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="${applicationId}.jarvis_config_provider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/jarvis_client_file_paths" />
-        </provider>
     </application>
 </manifest>

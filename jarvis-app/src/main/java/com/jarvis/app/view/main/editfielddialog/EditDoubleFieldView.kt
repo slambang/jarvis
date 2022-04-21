@@ -10,9 +10,9 @@ import com.jarvis.app.view.main.DoubleFieldItemViewModel
 import com.jarvis.app.view.util.toSafeDouble
 
 class EditDoubleFieldView(
+    context: Context,
     private val item: DoubleFieldItemViewModel,
-    private val onFieldEmpty: (Boolean) -> Unit,
-    context: Context
+    private val onFieldEmpty: (Boolean) -> Unit
 ) : EditFieldView {
 
     private var container: View =
@@ -34,12 +34,6 @@ class EditDoubleFieldView(
 
     override val value: Any
         get() = textInput.editText!!.text.toString().toSafeDouble(item.defaultValue)
-
-    override var error: String = ""
-        set(value) {
-            field = value
-            textInput.error = value
-        }
 
     override var isPublished: Boolean = item.isPublished
         set(value) {

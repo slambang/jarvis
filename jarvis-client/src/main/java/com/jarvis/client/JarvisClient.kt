@@ -13,6 +13,7 @@ import com.jarvis.client.data.ClientJsonMapper
 import com.jarvis.client.data.JarvisConfig
 import java.io.File
 import java.io.FileOutputStream
+import java.lang.IllegalArgumentException
 
 class JarvisClient internal constructor(
     private val context: Context,
@@ -40,11 +41,16 @@ class JarvisClient internal constructor(
         val jarvisConfigFile = writeConfigToFile(config)
         log("- Writing Jarvis config to local file `$jarvisConfigFile`.")
 
-        val jarvisConfigFileUri = FileProvider.getUriForFile(
-            context,
-            "${context.packageName}.$JARVIS_CONFIG_PROVIDER",
-            jarvisConfigFile
-        )
+        val jarvisConfigFileUri = try {
+            FileProvider.getUriForFile(
+                context,
+                "${context.packageName}.jarvis_config_provider",
+                jarvisConfigFile
+            )
+        } catch (error: IllegalArgumentException) {
+            log("- Error: ${error.message}. Have you added the <provider> to your app's manifest?")
+            return PushConfigResult.FAILURE
+        }
 
         log("- Granting Jarvis app permission for URI '$jarvisConfigFileUri' from package '${context.packageName}'.")
         context.grantUriPermission(
@@ -55,7 +61,7 @@ class JarvisClient internal constructor(
 
         val success: Int = try {
             val configUri = CONFIG_BASE_URI.buildUpon()
-                .appendQueryParameter(JARVIS_CONFIG_FILE_URI, jarvisConfigFileUri.toString())
+                .appendQueryParameter("jarvis_config_file_uri", jarvisConfigFileUri.toString())
                 .build()
 
             log("- Pushing config file URI to Jarvis app.")
@@ -95,11 +101,21 @@ class JarvisClient internal constructor(
         }
 
         log("- Done.")
-        return when (success) {
+
+        val pushConfigResult = when (success) {
             JARVIS_PUSH_CONFIG_RESULT_SUCCESS -> PushConfigResult.SUCCESS
             JARVIS_PUSH_CONFIG_RESULT_LOCKED -> PushConfigResult.LOCKED
             else -> PushConfigResult.FAILURE
         }
+
+        val message = when (pushConfigResult) {
+            PushConfigResult.SUCCESS -> "Success"
+            PushConfigResult.FAILURE -> "Failure (is the Jarvis app installed?)"
+            PushConfigResult.LOCKED -> "Failure: Jarvis app is locked"
+        }
+        log("Jarvis push: $message")
+
+        return pushConfigResult
     }
 
     fun getString(name: String, defaultValue: String): String =
@@ -156,10 +172,10 @@ class JarvisClient internal constructor(
             .appendPath(name)
             .build()
 
-        log("- Querying '$configUri'.")
+        log("- Querying: $configUri.")
         val cursor = context.contentResolver.query(
             configUri,
-            COLUMNS_PROJECTION,
+            arrayOf(COLUMN_VALUE_NAME),
             null,
             null,
             null
@@ -192,7 +208,7 @@ class JarvisClient internal constructor(
 
     private fun writeConfigToFile(config: JarvisConfig): File {
 
-        val destinationFile = File(context.cacheDir, JARVIS_CONFIG_JSON_FILE).also {
+        val destinationFile = File(context.cacheDir, "jarvis_config.json").also {
             it.delete()
         }
 
@@ -215,27 +231,15 @@ class JarvisClient internal constructor(
 
     private fun log(message: String) {
         if (loggingEnabled) {
-            Log.d(TAG, message)
+            Log.d("[JARVIS]", "CLIENT: $message")
         }
     }
 
     companion object {
-
-        private const val TAG = "[JARVIS CLIENT]"
-
         private const val PACKAGE = "com.jarvis.app"
-        private const val JARVIS_CONFIG_FILE_URI = "jarvis_config_file_uri"
-        private const val JARVIS_CONFIG_PROVIDER = "jarvis_config_provider"
-
-        private const val JARVIS_CONFIG = "jarvis_config"
-        private const val JARVIS_CONFIG_JSON_FILE = "$JARVIS_CONFIG.json"
-
         private const val COLUMN_VALUE_NAME = "value"
         private const val COLUMN_VALUE_INDEX = 0
-
         private val CONFIG_BASE_URI = Uri.parse("content://$PACKAGE")
-
-        private val COLUMNS_PROJECTION = arrayOf(COLUMN_VALUE_NAME)
 
         private const val JARVIS_PUSH_CONFIG_RESULT_SUCCESS = 0
         private const val JARVIS_PUSH_CONFIG_RESULT_FAILURE = 1

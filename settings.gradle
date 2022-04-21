@@ -1,5 +1,5 @@
 include ':jarvis-app'
 include ':jarvis-client'
-include ':jarvis-test'
+include ':jarvis-demo-advanced'
 
 rootProject.name = "Jarvis"
