@@ -1,8 +1,10 @@
 package com.jarvis.app.view.main
 
 import androidx.lifecycle.*
-import com.jarvis.app.domain.interactors.FieldsInteractor
 import com.jarvis.app.domain.interactors.SettingsInteractor
+import com.jarvis.app.domain.usecases.DeleteAllConfigsUseCase
+import com.jarvis.app.domain.usecases.GetAllFieldsUseCase
+import com.jarvis.app.domain.usecases.UpdateFieldUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -11,7 +13,9 @@ import javax.inject.Inject
 class MainActivityViewModel @Inject constructor(
     private val mapper: MainModelMapper,
     private val settingsInteractor: SettingsInteractor,
-    private val fieldsInteractor: FieldsInteractor
+    private val getAllFields: GetAllFieldsUseCase,
+    private val updateField: UpdateFieldUseCase,
+    private val deleteAllFields: DeleteAllConfigsUseCase
 ) : ViewModel() {
 
     val menuState: LiveData<MainMenuViewModel> = liveData {
@@ -21,7 +25,7 @@ class MainActivityViewModel @Inject constructor(
     }
 
     val configItems: LiveData<List<FieldItemViewModel<*>>> = liveData {
-        fieldsInteractor.getAllFields().collect {
+        getAllFields().collect {
             emit(mapper.mapToConfigItems(it))
         }
     }
@@ -40,13 +44,13 @@ class MainActivityViewModel @Inject constructor(
         isPublished: Boolean
     ) {
         viewModelScope.launch {
-            fieldsInteractor.onFieldUpdated(item.fieldDomain, newValue, isPublished)
+            updateField(item.fieldDomain, newValue, isPublished)
         }
     }
 
     fun clearConfigs() {
         viewModelScope.launch {
-            fieldsInteractor.deleteAllFields()
+            deleteAllFields()
         }
     }
 }

@@ -1,4 +1,4 @@
-@file:Suppress("UNCHECKED_CAST", "MemberVisibilityCanBePrivate")
+@file:Suppress("UNCHECKED_CAST", "MemberVisibilityCanBePrivate", "UNUSED")
 
 package com.jarvis.client.data
 

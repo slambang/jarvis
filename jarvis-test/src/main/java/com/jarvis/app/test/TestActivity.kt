@@ -67,8 +67,3 @@ class TestActivity : AppCompatActivity() {
         Snackbar.make(findViewById(R.id.main_activity_root), value.toString(), Snackbar.LENGTH_LONG)
             .show()
 }
-
-enum class ClientHeader {
-    ANDROID,
-    IOS
-}

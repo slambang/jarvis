@@ -243,6 +243,6 @@ class JarvisClient internal constructor(
         private const val JARVIS_PUSH_CONFIG_RESULT_CURSOR_ERROR = -2
 
         fun newInstance(context: Context): JarvisClient =
-            JarvisClient(context, ClientJsonMapper())
+            JarvisClient(context.applicationContext, ClientJsonMapper())
     }
 }

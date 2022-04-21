@@ -1,50 +1,21 @@
-package com.jarvis.app.domain.interactors
+package com.jarvis.app.domain.usecases
 
-import com.jarvis.app.domain.fields.JarvisFieldRepository
 import com.jarvis.app.data.AppJsonMapper
+import com.jarvis.app.domain.fields.JarvisFieldRepository
 import com.jarvis.client.data.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
-import java.io.InputStream
 import javax.inject.Inject
 
-class FieldsInteractor @Inject constructor(
+class UpdateFieldUseCase @Inject constructor(
     private val jsonMapper: AppJsonMapper,
-    private val jarvisFieldRepository: JarvisFieldRepository,
+    private val jarvisFieldRepository: JarvisFieldRepository
 ) {
-    // Called by ContentProvider
-    fun refreshConfig(inputStream: InputStream): JarvisConfig {
-        val jarvisConfig = jsonMapper.readConfig(inputStream)
-        val fieldsEntities = jarvisConfig.fields.map(jsonMapper::mapToJarvisFieldEntity)
-        jarvisFieldRepository.refreshConfig(fieldsEntities)
-        return jarvisConfig
-    }
-
-    // Called by ContentProvider
-    fun getJarvisField(fieldName: String): JarvisField<Any>? =
-        jarvisFieldRepository.getField(fieldName)?.let {
-            jsonMapper.mapJarvisFieldDomain(it)
-        }
-
-    // Called by ViewModel
-    fun getAllFields(): Flow<List<JarvisField<Any>>> =
-        jarvisFieldRepository.getAllFields().map {
-            it.map(jsonMapper::mapJarvisFieldDomain)
-        }
-
-    // Called by ViewModel
-    suspend fun deleteAllFields() = withContext(Dispatchers.IO) {
-        jarvisFieldRepository.deleteAllFields()
-    }
-
-    // Called by ViewModel
-    suspend fun onFieldUpdated(
+    suspend operator fun invoke(
         jarvisField: JarvisField<*>,
         newValue: Any,
         isPublished: Boolean
-    ) = withContext(Dispatchers.IO) {
+    ): Unit = withContext(Dispatchers.IO) {
         val updatedDomain = updateDomain(jarvisField, newValue, isPublished)
         val entity = jsonMapper.mapToJarvisFieldEntity(updatedDomain)
         jarvisFieldRepository.updateField(entity)
