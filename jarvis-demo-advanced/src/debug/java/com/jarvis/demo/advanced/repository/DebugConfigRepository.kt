@@ -29,7 +29,7 @@ class DebugConfigRepository(
 
     companion object {
 
-        private const val SOME_STRING_NAME = "Some string"
+        private const val SOME_STRING_NAME = "Some string (advanced demo)"
 
         private val JARVIS_CONFIG = jarvisConfig {
 
