@@ -1,6 +1,6 @@
 plugins {
-    id "com.android.application"
-    id "kotlin-android"
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
 }
 
 android {
@@ -8,19 +8,8 @@ android {
     buildToolsVersion "32.0.0"
 
     defaultConfig {
-        applicationId "com.jarvis.demo.advanced"
         minSdkVersion minimum_supported_android_version
         targetSdkVersion maximum_supported_android_version
-        versionCode 1
-        versionName "1.0"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    buildTypes {
-        release {
-            signingConfig signingConfigs.debug
-        }
     }
 
     compileOptions {
@@ -34,10 +23,6 @@ android {
 }
 
 dependencies {
-    /**
-     * NOTE: The Jarvis Client dependency is only included in `debug` builds.
-     * NOTE: Switch this to depend on the published (live) or local Jarvis Client version.
-     */
     debugImplementation project(":jarvis-client") // local
 //    debugImplementation "com.github.slambang:jarvis:v1.0.0" // latest published
 

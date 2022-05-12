@@ -14,6 +14,7 @@
             <option value="$PROJECT_DIR$/jarvis-app" />
             <option value="$PROJECT_DIR$/jarvis-client" />
             <option value="$PROJECT_DIR$/jarvis-demo-advanced" />
+            <option value="$PROJECT_DIR$/jarvis-demo-simple" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

@@ -4,6 +4,7 @@ buildscript {
     ext.hilt_version = '2.38.1'
 
     ext.minimum_supported_android_version = 16
+    ext.maximum_supported_android_version = 32
 
     repositories {
         google()
