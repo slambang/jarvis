@@ -1,4 +1,4 @@
-package com.jarvis.app.data
+package com.jarvis.app.di
 
 import android.content.Context
 import com.jarvis.app.data.database.JarvisDatabase

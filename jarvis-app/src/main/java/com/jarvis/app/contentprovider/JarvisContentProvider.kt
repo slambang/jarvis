@@ -5,6 +5,7 @@ import android.net.Uri
 import android.util.Log
 import com.jarvis.app.BuildConfig
 import com.jarvis.app.contentprovider.util.ReadOnlyContentProvider
+import com.jarvis.app.di.JarvisContentProviderEntryPoint
 import com.jarvis.app.domain.fields.JarvisContentProviderController
 import java.lang.RuntimeException
 

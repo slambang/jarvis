@@ -5,7 +5,7 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.*
 import java.lang.RuntimeException
 
-class ClientJsonMapper {
+internal class ClientJsonMapper {
     fun mapToJsonString(config: JarvisConfig): String =
         Json.encodeToString(config)
 }

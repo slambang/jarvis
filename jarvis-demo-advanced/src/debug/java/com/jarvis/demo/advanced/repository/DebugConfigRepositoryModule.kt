@@ -19,8 +19,6 @@ val configRepositoryModule = module {
      * See [com.jarvis.demo.advanced.MainActivity.configRepository].
      */
     single<ConfigRepository> {
-        val jarvisClient: JarvisClient = get()
-        val firebaseRemoteConfig: FirebaseRemoteConfig = get()
-        DebugConfigRepository(jarvisClient, firebaseRemoteConfig)
+        DebugConfigRepository(get(), get())
     }
 }

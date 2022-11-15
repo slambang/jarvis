@@ -15,7 +15,10 @@ class DebugConfigRepository(
         /**
          * Ensure the config is pushed to the Jarvis App before trying to read values.
          */
-        jarvis.pushConfigToJarvisApp(JARVIS_CONFIG)
+        with (jarvis) {
+            loggingEnabled = true
+            pushConfigToJarvisApp(JARVIS_CONFIG)
+        }
     }
 
     /**
@@ -23,9 +26,7 @@ class DebugConfigRepository(
      * Falls back to [FirebaseRemoteConfig] service for the default value.
      */
     override fun someStringValue(): String =
-        jarvis.getString(SOME_STRING_NAME, lazyDefaultValue = {
-            firebaseRemoteConfig.someStringValue()
-        })
+        jarvis.getString(SOME_STRING_NAME, firebaseRemoteConfig::someStringValue)
 
     companion object {
 

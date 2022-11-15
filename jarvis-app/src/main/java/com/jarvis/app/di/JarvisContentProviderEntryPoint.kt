@@ -1,4 +1,4 @@
-package com.jarvis.app.contentprovider
+package com.jarvis.app.di
 
 import android.content.Context
 import com.jarvis.app.domain.fields.JarvisContentProviderController

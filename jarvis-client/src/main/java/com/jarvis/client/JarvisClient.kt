@@ -1,252 +1,118 @@
-@file:Suppress("UNUSED", "MemberVisibilityCanBePrivate")
-
 package com.jarvis.client
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.net.Uri
-import android.util.Log
-import androidx.core.content.FileProvider
 import com.jarvis.client.data.ClientJsonMapper
 import com.jarvis.client.data.JarvisConfig
-import java.io.File
-import java.io.FileOutputStream
-import java.lang.IllegalArgumentException
 
-class JarvisClient internal constructor(
-    private val context: Context,
-    private val jsonMapper: ClientJsonMapper
-) {
-    enum class PushConfigResult {
-        SUCCESS,
-        FAILURE,
-        LOCKED
-    }
+/**
+ * The Jarvis interface, obtained via [JarvisClient.newInstance].
+ *
+ * @see [com.jarvis.client.data.jarvisConfig] to create a Jarvis config.
+ * Pass your Jarvis config to [JarvisClient.pushConfigToJarvisApp].
+ * Read data from the Jarvis App via the `get*()` functions.
+ *
+ * If the Jarvis App is installed then all `get*()` functions read data from there.
+ * If the Jarvis App is not installed then the default values are returned.
+ */
+interface JarvisClient {
 
-    var loggingEnabled = true
+    /**
+     * Enable/disable Jarvis's internal logging.
+     */
+    var loggingEnabled: Boolean
 
-    fun pushConfigToJarvisApp(config: JarvisConfig): PushConfigResult {
+    /**
+     * Pushes your app's Jarvis configuration to the Jarvis app.
+     */
+    fun pushConfigToJarvisApp(config: JarvisConfig): JarvisPushConfigResult
 
-        log("Pushing config to the Jarvis app.")
+    /**
+     * Gets a named String value from the Jarvis App.
+     *
+     * @param name The name of the string
+     * @param defaultValue The default value
+     */
+    fun getString(name: String, defaultValue: String): String
 
-        @SuppressLint("QueryPermissionsNeeded")
-        val queryResult = context.packageManager.getInstalledPackages(PackageManager.GET_PROVIDERS)
-            .firstOrNull {
-                it.packageName == PACKAGE
-            }
-        log("- Jarvis app ContentProvider query: ${if (queryResult != null) "Success" else "Failure"}.")
+    /**
+     * Gets a named String value from the Jarvis App.
+     *
+     * @param name The name of the string
+     * @param lazyDefaultValue The lazily obtained default value
+     */
+    fun getString(name: String, lazyDefaultValue: () -> String): String
 
-        val jarvisConfigFile = writeConfigToFile(config)
-        log("- Writing Jarvis config to local file `$jarvisConfigFile`.")
+    /**
+     * Gets a named Boolean value from the Jarvis App.
+     *
+     * @param name The name of the boolean
+     * @param defaultValue The default value
+     */
+    fun getBoolean(name: String, defaultValue: Boolean): Boolean
 
-        val jarvisConfigFileUri = try {
-            FileProvider.getUriForFile(
-                context,
-                "${context.packageName}.jarvis_config_provider",
-                jarvisConfigFile
-            )
-        } catch (error: IllegalArgumentException) {
-            log("- Error: ${error.message}. Have you added the <provider> to your app's manifest?")
-            return PushConfigResult.FAILURE
-        }
+    /**
+     * Gets a named Boolean value from the Jarvis App.
+     *
+     * @param name The name of the boolean
+     * @param lazyDefaultValue The lazily obtained default value
+     */
+    fun getBoolean(name: String, lazyDefaultValue: () -> Boolean): Boolean
 
-        log("- Granting Jarvis app permission for URI '$jarvisConfigFileUri' from package '${context.packageName}'.")
-        context.grantUriPermission(
-            PACKAGE,
-            jarvisConfigFileUri,
-            Intent.FLAG_GRANT_READ_URI_PERMISSION
-        )
+    /**
+     * Gets a named Long value from the Jarvis App.
+     *
+     * @param name The name of the long
+     * @param defaultValue The default value
+     */
+    fun getLong(name: String, defaultValue: Long): Long
 
-        val success: Int = try {
-            val configUri = CONFIG_BASE_URI.buildUpon()
-                .appendQueryParameter("jarvis_config_file_uri", jarvisConfigFileUri.toString())
-                .build()
+    /**
+     * Gets a named Long value from the Jarvis App.
+     *
+     * @param name The name of the long
+     * @param lazyDefaultValue The lazily obtained default value
+     */
+    fun getLong(name: String, lazyDefaultValue: () -> Long): Long
 
-            log("- Pushing config file URI to Jarvis app.")
-            var cursorResult = JARVIS_PUSH_CONFIG_RESULT_CURSOR_ERROR
-            context.contentResolver.query(
-                configUri,
-                null,
-                null,
-                null,
-                null
-            )?.use {
-                cursorResult = if (!it.moveToFirst()) {
-                    JARVIS_PUSH_CONFIG_RESULT_FAILURE
-                } else {
-                    it.getString(COLUMN_VALUE_INDEX).toInt()
-                }
-            }
+    /**
+     * Gets a named Double value from the Jarvis App.
+     *
+     * @param name The name of the double
+     * @param defaultValue The default value
+     */
+    fun getDouble(name: String, defaultValue: Double): Double
 
-            val message = when (cursorResult) {
-                JARVIS_PUSH_CONFIG_RESULT_SUCCESS -> "Success"
-                JARVIS_PUSH_CONFIG_RESULT_FAILURE -> "Failure"
-                JARVIS_PUSH_CONFIG_RESULT_LOCKED -> "Failure: Jarvis is locked"
-                else -> "Failure: Query error"
-            }
-            log("- $message ($cursorResult).")
+    /**
+     * Gets a named Double value from the Jarvis App.
+     *
+     * @param name The name of the double
+     * @param lazyDefaultValue The lazily obtained default value
+     */
+    fun getDouble(name: String, lazyDefaultValue: () -> Double): Double
 
-            cursorResult
-        } catch (error: Throwable) {
-            log("- Error: ${error.message}")
-            JARVIS_PUSH_CONFIG_RESULT_FAILURE
-        } finally {
-            log("- Revoking URI permission.")
-            context.revokeUriPermission(
-                jarvisConfigFileUri,
-                Intent.FLAG_GRANT_READ_URI_PERMISSION
-            )
-        }
+    /**
+     * Gets the index selection from a String list from the Jarvis App.
+     *
+     * @param name The name of the string list
+     * @param defaultValue The default selection index
+     */
+    fun getStringListSelection(name: String, defaultValue: Int): Int
 
-        log("- Done.")
-
-        val pushConfigResult = when (success) {
-            JARVIS_PUSH_CONFIG_RESULT_SUCCESS -> PushConfigResult.SUCCESS
-            JARVIS_PUSH_CONFIG_RESULT_LOCKED -> PushConfigResult.LOCKED
-            else -> PushConfigResult.FAILURE
-        }
-
-        val message = when (pushConfigResult) {
-            PushConfigResult.SUCCESS -> "Success"
-            PushConfigResult.FAILURE -> "Failure (is the Jarvis app installed?)"
-            PushConfigResult.LOCKED -> "Failure: Jarvis app is locked"
-        }
-        log("Jarvis push: $message")
-
-        return pushConfigResult
-    }
-
-    fun getString(name: String, defaultValue: String): String =
-        getString(name) { defaultValue }
-
-    fun getString(name: String, lazyDefaultValue: () -> String): String =
-        safeGetConfig(name, lazyDefaultValue, String::toString)
-
-    fun getBoolean(name: String, defaultValue: Boolean): Boolean =
-        getBoolean(name) { defaultValue }
-
-    fun getBoolean(name: String, lazyDefaultValue: () -> Boolean): Boolean =
-        safeGetConfig(name, lazyDefaultValue, String::toBoolean)
-
-    fun getLong(name: String, defaultValue: Long): Long =
-        getLong(name) { defaultValue }
-
-    fun getLong(name: String, lazyDefaultValue: () -> Long): Long =
-        safeGetConfig(name, lazyDefaultValue, String::toLong)
-
-    fun getDouble(name: String, defaultValue: Double): Double =
-        getDouble(name) { defaultValue }
-
-    fun getDouble(name: String, lazyDefaultValue: () -> Double): Double =
-        safeGetConfig(name, lazyDefaultValue, String::toDouble)
-
-    fun getStringListSelection(name: String, defaultValue: Int): Int =
-        getStringListSelection(name) { defaultValue }
-
-    fun getStringListSelection(name: String, lazyDefaultValue: () -> Int): Int =
-        safeGetConfig(name, lazyDefaultValue, String::toInt)
-
-    private inline fun <reified T : Any> safeGetConfig(
-        name: String,
-        noinline lazyDefaultValue: () -> T,
-        asDataType: String.() -> T
-    ): T = try {
-        log("Reading '$name' as ${T::class.java.simpleName}.")
-        val value = getConfigValue(name, lazyDefaultValue).asDataType()
-        log("- Success: Returning value '$value'.")
-        value
-    } catch (error: Throwable) {
-        val defaultValue = lazyDefaultValue()
-        log("- Failed: $error. Returning default value '$defaultValue'.")
-        defaultValue
-    }
-
-    private fun <T : Any> getConfigValue(
-        name: String,
-        lazyDefaultValue: () -> T
-    ): String {
-        val configUri = CONFIG_BASE_URI.buildUpon()
-            .appendEncodedPath(COLUMN_VALUE_NAME)
-            .appendPath(name)
-            .build()
-
-        log("- Querying: $configUri.")
-        val cursor = context.contentResolver.query(
-            configUri,
-            arrayOf(COLUMN_VALUE_NAME),
-            null,
-            null,
-            null
-        )
-
-        return if (cursor == null) {
-            log("- Failed: Returning default. (Is the Jarvis app installed?)")
-            lazyDefaultValue().toString()
-        } else {
-            log("- Success: Reading config value.")
-
-            var configValue: String? = null
-
-            try {
-                cursor.use {
-                    if (it.moveToFirst() && !it.isNull(COLUMN_VALUE_INDEX)) {
-                        configValue = it.getString(COLUMN_VALUE_INDEX)
-                    }
-                }
-            } catch (error: Throwable) {
-                log("- Error: ${error.message}")
-            }
-
-            configValue ?: run {
-                log("- Failed: Returning default.")
-                lazyDefaultValue().toString()
-            }
-        }
-    }
-
-    private fun writeConfigToFile(config: JarvisConfig): File {
-
-        val destinationFile = File(context.cacheDir, "jarvis_config.json").also {
-            it.delete()
-        }
-
-        val configInputStream = jsonMapper.mapToJsonString(config).byteInputStream()
-        val destinationOutputStream = FileOutputStream(destinationFile)
-
-        configInputStream.use {
-            destinationOutputStream.use {
-                var read: Int
-                val buff = ByteArray(1024)
-
-                while (configInputStream.read(buff).also { read = it } > 0) {
-                    destinationOutputStream.write(buff, 0, read)
-                }
-            }
-        }
-
-        return destinationFile
-    }
-
-    private fun log(message: String) {
-        if (loggingEnabled) {
-            Log.d("[JARVIS]", "CLIENT: $message")
-        }
-    }
+    /**
+     * Gets the index selection from a String list from the Jarvis App.
+     *
+     * @param name The name of the String list
+     * @param lazyDefaultValue The lazily obtained default value
+     */
+    fun getStringListSelection(name: String, lazyDefaultValue: () -> Int): Int
 
     companion object {
-        private const val PACKAGE = "com.jarvis.app"
-        private const val COLUMN_VALUE_NAME = "value"
-        private const val COLUMN_VALUE_INDEX = 0
-        private val CONFIG_BASE_URI = Uri.parse("content://$PACKAGE")
-
-        private const val JARVIS_PUSH_CONFIG_RESULT_SUCCESS = 0
-        private const val JARVIS_PUSH_CONFIG_RESULT_FAILURE = 1
-        private const val JARVIS_PUSH_CONFIG_RESULT_LOCKED = -1
-        private const val JARVIS_PUSH_CONFIG_RESULT_CURSOR_ERROR = -2
-
+        /**
+         * Creates a new instance of [JarvisClient].
+         *
+         * @return a new instance of [JarvisClient].
+         */
         fun newInstance(context: Context): JarvisClient =
-            JarvisClient(context.applicationContext, ClientJsonMapper())
+            JarvisClientImpl(context.applicationContext, ClientJsonMapper())
     }
 }
