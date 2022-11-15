@@ -1,16 +1,20 @@
-package com.slambang.jarvis.demo.simple
+# jarvis-demo-simple
 
-import android.os.Bundle
-import android.view.View
-import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
-import com.jarvis.client.JarvisClient
-import com.jarvis.client.data.jarvisConfig
+Bare minimum JarvisClient setup in 3 steps:
 
+#### 1. Gradle dependeny
+
+```groovy
+implementation 'com.github.slambang:jarvis:v1.0.3'
+```
+
+#### 2. Kotlin code
+
+```kotlin
 class MainActivity : AppCompatActivity() {
 
     /**
-     * 1. Declare a Jarvis Config
+     * Step 1: Create the Jarvis Config
      */
     private val config = jarvisConfig {
 
@@ -23,7 +27,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * 2. Create a JarvisClient instance
+     * Step 2: Create a JarvisClient instance
      */
     private val jarvis: JarvisClient by lazy { JarvisClient.newInstance(this) }
 
@@ -35,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         /**
-         * 3. Push your app's Jarvis config to the Jarvis App.
+         * Step 3: Push your app's Jarvis config to the Jarvis App.
          */
         with (jarvis) {
             loggingEnabled = true
@@ -44,7 +48,7 @@ class MainActivity : AppCompatActivity() {
 
         button.setOnClickListener {
             /**
-             * 4. Read the config value
+             * Step 4: Read the config value
              */
             textView.text = jarvis.getString(SOME_STRING_NAME, "Default value")
         }
@@ -54,3 +58,19 @@ class MainActivity : AppCompatActivity() {
         private const val SOME_STRING_NAME = "Some string (simple demo)"
     }
 }
+```
+
+#### 3. Declare FileProvider in Manifest
+
+```xml
+<provider
+    android:name="androidx.core.content.FileProvider"
+    android:authorities="${applicationId}.jarvis_config_provider"
+    android:exported="false"
+    android:grantUriPermissions="true">
+
+    <meta-data
+        android:name="android.support.FILE_PROVIDER_PATHS"
+        android:resource="@xml/jarvis_client_file_paths" />
+</provider>
+```

@@ -10,7 +10,7 @@ val configRepositoryModule = module {
 
     /**
      * Inject the single interface to the rest of the app.
-     * See [com.jarvis.demo.advanced.MainActivity.configRepository].
+     * @See [com.jarvis.demo.advanced.MainActivity.configRepo].
      */
     single<ConfigRepository> {
         ReleaseConfigRepository(get())
