@@ -14,10 +14,10 @@ class MainActivity : AppCompatActivity() {
      */
     private val config = jarvisConfig {
 
-        withLockAfterPush = false
+        withLockAfterPush = true
 
         withStringField {
-            name = SOME_STRING_NAME
+            name = STRING_FIELD_NAME
             value = "Jarvis value"
         }
     }
@@ -46,11 +46,11 @@ class MainActivity : AppCompatActivity() {
             /**
              * 4. Read the config value
              */
-            textView.text = jarvis.getString(SOME_STRING_NAME, "Default value")
+            textView.text = jarvis.getString(STRING_FIELD_NAME, "Default value")
         }
     }
 
     companion object {
-        private const val SOME_STRING_NAME = "Some string (simple demo)"
+        private const val STRING_FIELD_NAME = "String field (simple demo)"
     }
 }

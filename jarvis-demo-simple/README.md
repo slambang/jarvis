@@ -8,26 +8,26 @@ Bare minimum JarvisClient setup in 3 steps:
 implementation 'com.github.slambang:jarvis:v1.0.3'
 ```
 
-#### 2. Kotlin code
+#### 2. The code
 
 ```kotlin
 class MainActivity : AppCompatActivity() {
 
     /**
-     * Step 1: Create the Jarvis Config
+     * 1. Declare a Jarvis Config
      */
     private val config = jarvisConfig {
 
-        withLockAfterPush = false
+        withLockAfterPush = true
 
         withStringField {
-            name = SOME_STRING_NAME
+            name = STRING_FIELD_NAME
             value = "Jarvis value"
         }
     }
 
     /**
-     * Step 2: Create a JarvisClient instance
+     * 2. Create a JarvisClient instance
      */
     private val jarvis: JarvisClient by lazy { JarvisClient.newInstance(this) }
 
@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         /**
-         * Step 3: Push your app's Jarvis config to the Jarvis App.
+         * 3. Push your app's Jarvis config to the Jarvis App.
          */
         with (jarvis) {
             loggingEnabled = true
@@ -48,19 +48,19 @@ class MainActivity : AppCompatActivity() {
 
         button.setOnClickListener {
             /**
-             * Step 4: Read the config value
+             * 4. Read the config value
              */
-            textView.text = jarvis.getString(SOME_STRING_NAME, "Default value")
+            textView.text = jarvis.getString(STRING_FIELD_NAME, "Default value")
         }
     }
 
     companion object {
-        private const val SOME_STRING_NAME = "Some string (simple demo)"
+        private const val STRING_FIELD_NAME = "String field (simple demo)"
     }
 }
 ```
 
-#### 3. Declare FileProvider in Manifest
+#### 3. Copy FileProvider into Manifest
 
 ```xml
 <provider

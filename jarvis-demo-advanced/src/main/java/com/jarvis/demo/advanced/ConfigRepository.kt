@@ -1,7 +1,7 @@
-package com.jarvis.demo.advanced.repository
+package com.jarvis.demo.advanced
 
 /**
- * This single interface is exposed to the rest of the app.
+ * This interface is injected into [MainActivity].
  *
  * The implementation will depend on the build variant:
  *  `debug` (with Jarvis): [com.jarvis.demo.advanced.repository.DebugConfigRepository]
@@ -9,5 +9,5 @@ package com.jarvis.demo.advanced.repository
  */
 interface ConfigRepository {
 
-    fun someStringValue(): String
+    fun getStringValue(): String
 }

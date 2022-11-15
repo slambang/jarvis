@@ -1,46 +1,52 @@
 package com.jarvis.demo.advanced.repository
 
+import android.content.Context
 import com.jarvis.client.JarvisClient
 import com.jarvis.client.data.jarvisConfig
+import com.jarvis.demo.advanced.ConfigRepository
+
+fun getRepository(context: Context): ConfigRepository =
+    DebugConfigRepository(
+        JarvisClient.newInstance(context)
+    )
 
 /**
  * Only seen by the `debug` build variant.
  */
 class DebugConfigRepository(
-    private val jarvis: JarvisClient,
-    private val firebaseRemoteConfig: FirebaseRemoteConfig
+    private val jarvis: JarvisClient
 ) : ConfigRepository {
 
     init {
         /**
-         * Ensure the config is pushed to the Jarvis App before trying to read values.
+         * Step 1: Declare the Jarvis config.
+         */
+        val config = jarvisConfig {
+
+            withLockAfterPush = true
+
+            withStringField {
+                name = STRING_FIELD_NAME
+                value = "Jarvis value"
+            }
+        }
+
+        /**
+         * Step 2: Push the config to the Jarvis App.
          */
         with (jarvis) {
             loggingEnabled = true
-            pushConfigToJarvisApp(JARVIS_CONFIG)
+            pushConfigToJarvisApp(config)
         }
     }
 
     /**
-     * Retrieves the value from the Jarvis App (if installed).
-     * Falls back to [FirebaseRemoteConfig] for the default value.
+     * Step 3: Read the value.
      */
-    override fun someStringValue(): String =
-        jarvis.getString(SOME_STRING_NAME, firebaseRemoteConfig::someStringValue)
+    override fun getStringValue(): String =
+        jarvis.getString(STRING_FIELD_NAME, "Debug value")
 
     companion object {
-
-        private const val SOME_STRING_NAME = "Some string (advanced demo)"
-
-        private val JARVIS_CONFIG = jarvisConfig {
-
-            withLockAfterPush = false
-
-            withStringField {
-                name = SOME_STRING_NAME
-                value = "Jarvis value"
-                maxLength = 12
-            }
-        }
+        private const val STRING_FIELD_NAME = "String field (advanced demo)"
     }
 }
