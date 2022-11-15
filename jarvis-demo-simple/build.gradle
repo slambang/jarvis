@@ -4,8 +4,9 @@ plugins {
 }
 
 android {
+    namespace 'com.slambang.jarvis.demo.simple'
     compileSdkVersion maximum_supported_android_version
-    buildToolsVersion "32.0.0"
+    buildToolsVersion buildToolsVersion
 
     defaultConfig {
         minSdkVersion minimum_supported_android_version
@@ -23,9 +24,9 @@ android {
 }
 
 dependencies {
-    debugImplementation project(":jarvis-client") // local
-//    debugImplementation "com.github.slambang:jarvis:v1.0.0" // latest published
+    debugImplementation project(":jarvis-client")
 
     implementation "io.insert-koin:koin-android:3.1.6"
-    implementation "com.google.android.material:material:1.6.0"
+    implementation "com.google.android.material:material:1.7.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
 }

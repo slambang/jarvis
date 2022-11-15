@@ -5,7 +5,7 @@ plugins {
 
 android {
     compileSdkVersion maximum_supported_android_version
-    buildToolsVersion "32.0.0"
+    buildToolsVersion buildToolsVersion
 
     defaultConfig {
         applicationId "com.jarvis.demo.advanced"
@@ -31,16 +31,14 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_11
     }
+    namespace 'com.jarvis.demo.advanced'
 }
 
 dependencies {
-    /**
-     * NOTE: The Jarvis Client dependency is only included in `debug` builds.
-     * NOTE: Switch this to depend on the published (live) or local Jarvis Client version.
-     */
-    debugImplementation project(":jarvis-client") // local
-//    debugImplementation "com.github.slambang:jarvis:v1.0.0" // latest published
+    // Note: The Jarvis Client dependency is only included in *debug* builds.
+    debugImplementation project(":jarvis-client")
 
     implementation "io.insert-koin:koin-android:3.1.6"
-    implementation "com.google.android.material:material:1.6.0"
+    implementation "com.google.android.material:material:1.7.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
 }

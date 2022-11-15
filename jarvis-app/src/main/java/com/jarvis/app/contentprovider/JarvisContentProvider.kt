@@ -12,12 +12,11 @@ import java.lang.RuntimeException
 class JarvisContentProvider : ReadOnlyContentProvider() {
 
     private val viewModel: JarvisContentProviderViewModel by lazy {
-        JarvisContentProviderEntryPoint.getViewModel(requireContext())
+        JarvisContentProviderEntryPoint.getViewModel(context!!)
     }
 
     override fun onCreate(): Boolean = true
 
-    // TODO Use 'Query' and 'Update' appropriately
     override fun query(
         uri: Uri,
         projection: Array<out String>?,
