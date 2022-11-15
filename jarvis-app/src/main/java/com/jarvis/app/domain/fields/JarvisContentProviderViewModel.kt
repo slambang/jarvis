@@ -7,7 +7,7 @@ import com.jarvis.client.data.StringListField
 import java.io.InputStream
 import javax.inject.Inject
 
-class JarvisContentProviderController @Inject constructor(
+class JarvisContentProviderViewModel @Inject constructor(
     private val settingsInteractor: SettingsInteractor,
     private val getSingleField: GetSingleFieldUseCase,
     private val refreshConfig: RefreshConfigUseCase

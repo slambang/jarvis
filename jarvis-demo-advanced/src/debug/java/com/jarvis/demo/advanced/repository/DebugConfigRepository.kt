@@ -23,7 +23,7 @@ class DebugConfigRepository(
 
     /**
      * Retrieves the value from the Jarvis App (if installed).
-     * Falls back to [FirebaseRemoteConfig] service for the default value.
+     * Falls back to [FirebaseRemoteConfig] for the default value.
      */
     override fun someStringValue(): String =
         jarvis.getString(SOME_STRING_NAME, firebaseRemoteConfig::someStringValue)

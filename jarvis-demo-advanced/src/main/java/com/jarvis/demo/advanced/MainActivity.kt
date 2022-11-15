@@ -8,7 +8,7 @@ import com.jarvis.demo.advanced.repository.ConfigRepository
 import org.koin.android.ext.android.inject
 
 /**
- * Switch the build variant between `debug` and `release` in the IDE.
+ * Switch the build variant between `debug` and `release` build variants in the IDE.
  * The implementation of [ConfigRepository] will change at runtime.
  *
  * For the `debug` build variant, experiment with having the Jarvis app installed/uninstalled.
@@ -19,17 +19,16 @@ class MainActivity : AppCompatActivity() {
     /**
      * This single interface could be injected anywhere in your app.
      */
-    private val configRepository: ConfigRepository by inject()
+    private val configRepo: ConfigRepository by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        findViewById<TextView>(R.id.repository_class_name).text =
-            configRepository.javaClass.simpleName
+        findViewById<TextView>(R.id.repository_class_name).text = configRepo.javaClass.simpleName
 
         findViewById<View>(R.id.get_value_button).setOnClickListener {
-            findViewById<TextView>(R.id.value_at_runtime).text = configRepository.someStringValue()
+            findViewById<TextView>(R.id.value_at_runtime).text = configRepo.someStringValue()
         }
     }
 }

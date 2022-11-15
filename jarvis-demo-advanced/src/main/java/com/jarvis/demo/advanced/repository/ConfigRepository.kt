@@ -2,6 +2,7 @@ package com.jarvis.demo.advanced.repository
 
 /**
  * This single interface is exposed to the rest of the app.
+ *
  * The implementation will depend on the build variant:
  *  `debug` (with Jarvis): [com.jarvis.demo.advanced.repository.DebugConfigRepository]
  *  `release` (no Jarvis): [com.jarvis.demo.advanced.repository.ReleaseConfigRepository]

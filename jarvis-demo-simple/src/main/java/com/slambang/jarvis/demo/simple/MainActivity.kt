@@ -8,8 +8,8 @@ import com.jarvis.client.JarvisClient
 import com.jarvis.client.data.jarvisConfig
 
 /**
- * Absolute minimal code setup, obtaining an instance of [JarvisClient] to read a string.
- * See the FileProvider that is declared in the manifest.
+ * Absolute minimal code setup using [JarvisClient] to read a string from the config.
+ * Also see the FileProvider that is declared in the manifest.
  */
 class MainActivity : AppCompatActivity() {
 
@@ -20,9 +20,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         /**
-         * Push your app's config.
-         * This can be done wherever you like, but the config must be pushed before your
-         * app tries to read any config values.
+         * Push your app's Jarvis config to the Jarvis App.
          */
         with (jarvis) {
             loggingEnabled = true
@@ -36,9 +34,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val SOME_STRING_NAME = "Some string (simple demo)"
+        private const val SOME_STRING_NAME = "Some string (simple demo)"
 
-        val JARVIS_CONFIG = jarvisConfig {
+        private val JARVIS_CONFIG = jarvisConfig {
 
             withLockAfterPush = false
 

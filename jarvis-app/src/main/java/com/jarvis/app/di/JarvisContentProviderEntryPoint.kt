@@ -1,7 +1,7 @@
 package com.jarvis.app.di
 
 import android.content.Context
-import com.jarvis.app.domain.fields.JarvisContentProviderController
+import com.jarvis.app.domain.fields.JarvisContentProviderViewModel
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
@@ -14,10 +14,10 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 interface JarvisContentProviderEntryPoint {
 
-    fun jarvisContentProviderController(): JarvisContentProviderController
+    fun jarvisContentProviderController(): JarvisContentProviderViewModel
 
     companion object {
-        fun getController(context: Context): JarvisContentProviderController =
+        fun getViewModel(context: Context): JarvisContentProviderViewModel =
             EntryPointAccessors.fromApplication(
                 context.applicationContext,
                 JarvisContentProviderEntryPoint::class.java

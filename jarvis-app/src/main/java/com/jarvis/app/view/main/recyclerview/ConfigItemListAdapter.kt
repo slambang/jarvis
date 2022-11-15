@@ -47,14 +47,10 @@ private val differCallback = object : DiffUtil.ItemCallback<FieldItemViewModel<*
     override fun areItemsTheSame(
         oldItem: FieldItemViewModel<*>,
         newItem: FieldItemViewModel<*>
-    ): Boolean {
-        return oldItem.name == newItem.name
-    }
+    ): Boolean = oldItem.name == newItem.name
 
     override fun areContentsTheSame(
         oldItem: FieldItemViewModel<*>,
         newItem: FieldItemViewModel<*>
-    ): Boolean {
-        return oldItem == newItem
-    }
+    ): Boolean = oldItem == newItem
 }

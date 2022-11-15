@@ -6,13 +6,13 @@ import android.util.Log
 import com.jarvis.app.BuildConfig
 import com.jarvis.app.contentprovider.util.ReadOnlyContentProvider
 import com.jarvis.app.di.JarvisContentProviderEntryPoint
-import com.jarvis.app.domain.fields.JarvisContentProviderController
+import com.jarvis.app.domain.fields.JarvisContentProviderViewModel
 import java.lang.RuntimeException
 
 class JarvisContentProvider : ReadOnlyContentProvider() {
 
-    private val controller: JarvisContentProviderController by lazy {
-        JarvisContentProviderEntryPoint.getController(context!!)
+    private val viewModel: JarvisContentProviderViewModel by lazy {
+        JarvisContentProviderEntryPoint.getViewModel(requireContext())
     }
 
     override fun onCreate(): Boolean = true
@@ -39,7 +39,7 @@ class JarvisContentProvider : ReadOnlyContentProvider() {
     private fun onConfigLocationReceived(uri: Uri): Int {
         log("- Config file URI received: $uri")
 
-        if (controller.isJarvisLocked) {
+        if (viewModel.isJarvisLocked) {
             log("- Jarvis is locked. Skipping.")
             return JARVIS_PULL_CONFIG_RESULT_LOCKED
         }
@@ -56,7 +56,7 @@ class JarvisContentProvider : ReadOnlyContentProvider() {
                 ?: throw RuntimeException("Failed to open config input stream.")
 
             stream.use {
-                controller.onConfigPush(it)
+                viewModel.onConfigPush(it)
             }
 
             return JARVIS_PULL_CONFIG_RESULT_SUCCESS
@@ -87,9 +87,9 @@ class JarvisContentProvider : ReadOnlyContentProvider() {
                 uri.pathSegments[PATH_VALUE_INDEX] == PATH_VALUE
 
     private fun readFieldValue(uri: Uri): String? {
-        if (!controller.isJarvisActive) return null
+        if (!viewModel.isJarvisActive) return null
         val fieldName = uri.pathSegments[PATH_CONFIG_VALUE_INDEX]
-        return controller.getFieldValue(fieldName)
+        return viewModel.getFieldValue(fieldName)
     }
 
     private fun log(message: String) {

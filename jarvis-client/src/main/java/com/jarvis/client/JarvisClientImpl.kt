@@ -207,11 +207,11 @@ internal class JarvisClientImpl(
             it.delete()
         }
 
-        val destinationOutputStream = FileOutputStream(destinationFile)
+        val fileOutputStream = FileOutputStream(destinationFile)
         val configInputStream = jsonMapper.mapToJsonString(config).byteInputStream()
 
         configInputStream.use { inputStream ->
-            destinationOutputStream.use { outputStream ->
+            fileOutputStream.use { outputStream ->
                 var read: Int
                 val buff = ByteArray(2048)
 
