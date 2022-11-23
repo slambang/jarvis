@@ -2,13 +2,28 @@
 
 Bare minimum JarvisClient setup in 3 steps:
 
-#### 1. Gradle dependeny
+#### 1. Add the Gradle dependency
 
 ```groovy
 implementation 'com.github.slambang:jarvis:v1.0.3'
 ```
 
-#### 2. The code
+#### 2. Copy the FileProvider into your Manifest
+
+```xml
+<provider
+    android:name="androidx.core.content.FileProvider"
+    android:authorities="${applicationId}.jarvis_config_provider"
+    android:exported="false"
+    android:grantUriPermissions="true">
+
+    <meta-data
+        android:name="android.support.FILE_PROVIDER_PATHS"
+        android:resource="@xml/jarvis_client_file_paths" />
+</provider>
+```
+
+#### 3. The code
 
 ```kotlin
 class MainActivity : AppCompatActivity() {
@@ -58,19 +73,4 @@ class MainActivity : AppCompatActivity() {
         private const val STRING_FIELD_NAME = "String field (simple demo)"
     }
 }
-```
-
-#### 3. Copy FileProvider into Manifest
-
-```xml
-<provider
-    android:name="androidx.core.content.FileProvider"
-    android:authorities="${applicationId}.jarvis_config_provider"
-    android:exported="false"
-    android:grantUriPermissions="true">
-
-    <meta-data
-        android:name="android.support.FILE_PROVIDER_PATHS"
-        android:resource="@xml/jarvis_client_file_paths" />
-</provider>
 ```

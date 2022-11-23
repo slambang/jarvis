@@ -21,8 +21,8 @@ Just use Jarvis!
 ### How does it work?
 
 You define a **Jarvis config** in your own app (in-code) that is pushed to the separate Jarvis App.  
-The **Jarvis App** renders your config with a user-friendly UI, allowing you to alter the configuration on-the-fly!   
-The Jarvis app being installed is **not mandatory**. Your app will still function without it, using default config values.
+The **Jarvis App** renders your config with a user-friendly UI, allowing you to edit the configuration on-the-fly!   
+The Jarvis app being installed is **not mandatory**. Your app will still function without it using default config values.
 
 There are 2 parts to Jarvis:
 1. [JarvisClient](jarvis-client)   
@@ -35,7 +35,7 @@ String
 Long  
 Double  
 Boolean  
-String list
+String list (enum)
 
 ### Key concepts
 The Jarvis App provides some key features:

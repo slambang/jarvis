@@ -1,0 +1,14 @@
+// ./gradlew jarvis-client:dokkaHtml
+dokkaHtml.configure {
+    dokkaSourceSets {
+        named("main") {
+            noAndroidSdkLink.set(false)
+            includeNonPublic.set(false)
+
+            perPackageOption {
+                suppress.set(true)
+                matchingRegex.set(".*\\.JarvisClientImpl.*")
+            }
+        }
+    }
+}

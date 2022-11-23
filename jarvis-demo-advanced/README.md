@@ -8,15 +8,14 @@ Please refer to the [jarvis-demo-simple](../jarvis-demo-simple) demo for bare mi
 
 ### Architecture
 
-The app injects a common interface (`ConfigRepository`) whose implementation depends on the `debug` or `release` build variants:
+The app injects a common interface (`ConfigRepository`) whose implementation depends on the `debug` or `release` build variants.
+`ConfigRepository.getStringValue` will return different values depending on the build variant:
 
 #### `debug` build variant
 Implements `DebugConfigRepository` which **does** use the `JarvisClient`.  
 If the Jarvis App is installed then the String value returned is as configured in the Jarvis App.  
 If the Jarvis App is not installed then it falls back to the default value as defined in the config.  
-There is **no hard dependency** on the Jarvis App being installed. It is totally optional.  
-
-Merges the required FileProvider into the manifest. See `debug/AndroidManifest.xml`.
+There is **no hard dependency** on the Jarvis App being installed. It is totally optional.
 
 #### `release` build variant
 Implements `ReleaseConfigRepository` which **does not** use the `JarvisClient`.  
