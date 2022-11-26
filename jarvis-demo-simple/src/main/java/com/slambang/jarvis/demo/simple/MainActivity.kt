@@ -17,30 +17,8 @@ class MainActivity : AppCompatActivity() {
         withLockAfterPush = true
 
         withStringField {
-            name = "Name of the string field"
-            value = "Field value"
-        }
-
-        withLongField {
-            name = "Name of the long field"
-            value = 0L
-        }
-
-        withDoubleField {
-            name = "Name of the double field"
-            value = 1.0
-        }
-
-        withBooleanField {
-            name = "Name of the boolean field"
-            value = true
-        }
-
-        // Can also be used for enums
-        withStringListField {
-            name = "Name of the string list field"
-            value = listOf("a", "b", "c")
-            defaultSelection = 0
+            name = STRING_FIELD_NAME
+            value = "Jarvis value"
         }
     }
 

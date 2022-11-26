@@ -1,14 +1,24 @@
 # jarvis-demo-simple
 
-Bare minimum JarvisClient setup in 3 steps:
+Simple [JarvisClient](../jarvis-client) setup in 2 steps.  
 
-#### 1. Add the Gradle dependency
+- [1. Gradle dependency and FileProvider](#1-gradle-dependency-and-fileprovider)
+- [2. The code](#2-the-code)
+
+If the [Jarvis App](../jarvis-app) is installed then the config values are returned from there.
+If the [Jarvis App](../jarvis-app) is not installed then default values are returned (as defined in the config).  
+
+Experiment with and without the [Jarvis App](../jarvis-app) being installed.
+
+#### 1. Gradle dependency and FileProvider
+
+Add this dependency to your app's `build.gradle`:
 
 ```groovy
-implementation 'com.github.slambang:jarvis:v1.0.3'
+implementation 'com.github.slambang:jarvis:<LATEST>'
 ```
 
-#### 2. Copy the FileProvider into your Manifest
+Copy this [FileProvider](https://developer.android.com/reference/androidx/core/content/FileProvider) into your app's `AndroidManifest.xml`. It is required only for the client to push your config to the [Jarvis App](../jarvis-app):
 
 ```xml
 <provider
@@ -23,7 +33,22 @@ implementation 'com.github.slambang:jarvis:v1.0.3'
 </provider>
 ```
 
-#### 3. The code
+This is required so the [JarvisClient](../jarvis-client) can push your config to the [Jarvis App](../jarvis-app).  
+
+```xml
+<provider
+    android:name="androidx.core.content.FileProvider"
+    android:authorities="${applicationId}.jarvis_config_provider"
+    android:exported="false"
+    android:grantUriPermissions="true">
+
+    <meta-data
+        android:name="android.support.FILE_PROVIDER_PATHS"
+        android:resource="@xml/jarvis_client_file_paths" />
+</provider>
+```
+
+#### 2. The code
 
 ```kotlin
 class MainActivity : AppCompatActivity() {
@@ -37,7 +62,7 @@ class MainActivity : AppCompatActivity() {
 
         withStringField {
             name = STRING_FIELD_NAME
-            value = "Jarvis value"
+            value = "Field value"
         }
     }
 
@@ -54,7 +79,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         /**
-         * 3. Push your app's Jarvis config to the Jarvis App.
+         * 3. Push your app's config to the Jarvis App.
          */
         with (jarvis) {
             loggingEnabled = true

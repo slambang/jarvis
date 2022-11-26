@@ -11,8 +11,7 @@
                 </shape>
             </item>
 
-            <item android:width="24dp"
-                android:height="24dp"
+            <item
                 android:gravity="right|center_vertical">
                 <bitmap android:src="@drawable/down_arrow" />
             </item>

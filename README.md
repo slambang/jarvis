@@ -1,64 +1,45 @@
-## Jarvis: instant app configuration
+## Jarvis: instant app configuration for Android
+
+<p align="center">
+   <img src="jarvis-app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png" width="100">
+</p>
+
+- [What is it?](#what-is-it)
+- [Who needs it?](#who-needs-it)
+- [How does it work?](#how-does-it-work)
+- [Quickstart](#quickstart)
 
 ### What is it?
 
-Jarvis is a **development tool** that provides instant, easy **app configuration**. Feature flags, base URLs and other values can be directly injected into your app **at runtime**.
+Jarvis is a development tool for Android that provides an instant UI for your app's config.  
 
-### Who is it for?
+The [JarvisClient](jarvis-client) is used to define your app's config. The [Jarvis App](jarvis-app) allows you to edit & manage that config at runtime with **no code change**.
 
+<p align="center">
+   <img src="images/jarvis_app_edited_config_rendered.png" width="300"> <img src="images/jarvis_app_edit_string_list.png" width="300"> 
+   <img src="images/jarvis_app_edit_boolean.png" width="300"> <img src="images/jarvis_app_edit_string.png" width="300">
+</p>
 
-Jarvis is perfect for any **single developer** or **team** that needs dynamic and configurable app data.
+### Who needs it?
 
-*Why waste time developing and integrating a "debug only" or "developer only" hidden configuration menu?*  
-*Why manually change values in-code, rebuild and run your app each time to experiment with data changes?*
-
-* Staging or production base URL?
-* Feature flag on or off?
-* A/B test switch?
-
-Just use Jarvis!
+Use Jarvis if you:
+- Need a hidden or "developer only" config menu
+- Need editable local config
+- Need to override remote config
+- Need to easily experiment with complex things such as buffer sizes, thresholds and deltas
 
 ### How does it work?
 
-You define a **Jarvis config** in your own app (in-code) that is pushed to the separate Jarvis App.  
-The **Jarvis App** renders your config with a user-friendly UI, allowing you to edit the configuration on-the-fly!   
-The Jarvis app being installed is **not mandatory**. Your app will still function without it using default config values.
+Jarvis has 2 parts:  
 
-There are 2 parts to Jarvis:
 1. [JarvisClient](jarvis-client)   
-   **You integrate** this small library with your own app. **You define** a Jarvis config and push it to the Jarvis App using the client.
-2. [Jarvis App]()  
-   **You install** this on the same device as your own app. It displays the Jarvis config defined in your app with a **friendly UI**, allowing you to adjust the configuration as needed.
+   You integrate this small library with your own app. You define your app's config (in-code) which is pushed to the Jarvis App.
 
-### What data types does Jarvis support?
-String   
-Long  
-Double  
-Boolean  
-String list (enum)
+2. [Jarvis App](jarvis-app)  
+   You install this app on the same device as your own app. It receives and renders your app's config.
 
-### Key concepts
-The Jarvis App provides some key features:
+### Quickstart
 
-1. **Active/Inactive**  
-   Enables/Disables the whole Jarvis App.  
-   When **Active** The Jarvis App will serve config values to your app.  
-   When **Inactive** the Jarvis App will act like it is not installed.  
-   *Useful when you want to run your app with default values without having to uninstall/reinstall the Jarvis App.*
-2. **Locked/Unlocked**  
-   When **locked**, the Jarvis App will reject any new incoming configurations and maintain its current configuration state.  
-   When **unlocked** the Jarvis App will accept new configurations, overwriting the existing configuration.  
-   *Useful when your app has already pushed its config to the Jarvis App and you don't want to keep overwirting it.*
-3. **Published/unpublished**  
-   When a configuration field is **published** it will be returned by the Jarvis App.  
-   When a configuration field is **unpublished** it will not be returned by the Jarvis App, causing the JarvisClient to return the default value.  
-   *Useful when you want to enable/disable individual configuration fields without having to uninstall/reinstall the Jarvis App.*
-
-### How do I get setup?
-
-See the [jarvis-demo-simple](jarvis-demo-simple) app for a simple setup.  
-See the [jarvis-demo-advanced](jarvis-demo-advanced) app for an advanced setup.
-
-### Get the Jarvis App APK
-
-A pre-built Jarvis App APK can be downloaded [here]().
+See the demos:
+1. [jarvis-demo-simple](jarvis-demo-simple): Minimum setup in 3 easy steps.
+2. [jarvis-demo-advanced](jarvis-demo-advanced): Integrate Jarvis with a *debug-only* build.
