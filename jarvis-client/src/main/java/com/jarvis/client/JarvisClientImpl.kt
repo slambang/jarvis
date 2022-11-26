@@ -1,5 +1,3 @@
-@file:Suppress("UNUSED", "MemberVisibilityCanBePrivate")
-
 package com.jarvis.client
 
 import android.annotation.SuppressLint
@@ -24,14 +22,14 @@ internal class JarvisClientImpl(
 
     override fun pushConfigToJarvisApp(config: JarvisConfig): JarvisPushConfigResult {
 
-        log("Pushing config to the Jarvis app.")
+        log("Pushing config to the Jarvis App.")
 
         @SuppressLint("QueryPermissionsNeeded")
         val queryResult = context.packageManager.getInstalledPackages(PackageManager.GET_PROVIDERS)
             .firstOrNull {
-                it.packageName == PACKAGE
+                it.packageName == JARVIS_APP_PACKAGE
             }
-        log("- Jarvis app ContentProvider query: ${if (queryResult != null) "Success" else "Failure"}.")
+        log("- Jarvis App ContentProvider query: ${if (queryResult != null) "Success" else "Failure"}.")
 
         val jarvisConfigFile = writeConfigToFile(config)
         log("- Writing Jarvis config to local file `$jarvisConfigFile`.")
@@ -47,9 +45,9 @@ internal class JarvisClientImpl(
             return JarvisPushConfigResult.FAILURE
         }
 
-        log("- Granting Jarvis app permission for URI '$jarvisConfigFileUri' from package '${context.packageName}'.")
+        log("- Granting Jarvis App permission for URI '$jarvisConfigFileUri' from package '${context.packageName}'.")
         context.grantUriPermission(
-            PACKAGE,
+            JARVIS_APP_PACKAGE,
             jarvisConfigFileUri,
             Intent.FLAG_GRANT_READ_URI_PERMISSION
         )
@@ -59,7 +57,7 @@ internal class JarvisClientImpl(
                 .appendQueryParameter("jarvis_config_file_uri", jarvisConfigFileUri.toString())
                 .build()
 
-            log("- Pushing config file URI to Jarvis app.")
+            log("- Pushing config file URI to Jarvis App.")
             var cursorResult = JARVIS_PUSH_CONFIG_RESULT_CURSOR_ERROR
             context.contentResolver.query(
                 configUri,
@@ -105,8 +103,8 @@ internal class JarvisClientImpl(
 
         val message = when (pushConfigResult) {
             JarvisPushConfigResult.SUCCESS -> "Success"
-            JarvisPushConfigResult.FAILURE -> "Failure (is the Jarvis app installed?)"
-            JarvisPushConfigResult.LOCKED -> "Failure: Jarvis app is locked"
+            JarvisPushConfigResult.FAILURE -> "Failure (is the Jarvis App installed?)"
+            JarvisPushConfigResult.LOCKED -> "Failure: Jarvis App is locked"
         }
         log("Jarvis push: $message")
 
@@ -148,7 +146,7 @@ internal class JarvisClientImpl(
         lazyDefaultValue: () -> T,
         asDataType: String.() -> T
     ): T = try {
-         log("Reading '$name'.")
+        log("Reading '$name'.")
         val value = getConfigValue(name, lazyDefaultValue).asDataType()
         log("- Success: Returning value '$value'.")
         value
@@ -177,7 +175,7 @@ internal class JarvisClientImpl(
         )
 
         return if (cursor == null) {
-            log("- Failed: Returning default. (Is the Jarvis app installed?)")
+            log("- Failed: Returning default. (Is the Jarvis App installed?)")
             lazyDefaultValue().toString()
         } else {
             log("- Success: Reading config value.")
@@ -231,10 +229,10 @@ internal class JarvisClientImpl(
     }
 
     companion object {
-        private const val PACKAGE = "com.jarvis.app"
+        private const val JARVIS_APP_PACKAGE = "com.jarvis.app"
         private const val COLUMN_VALUE_NAME = "value"
         private const val COLUMN_VALUE_INDEX = 0
-        private val CONFIG_BASE_URI = Uri.parse("content://$PACKAGE")
+        private val CONFIG_BASE_URI = Uri.parse("content://$JARVIS_APP_PACKAGE")
 
         private const val JARVIS_PUSH_CONFIG_RESULT_SUCCESS = 0
         private const val JARVIS_PUSH_CONFIG_RESULT_FAILURE = 1

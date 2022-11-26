@@ -17,8 +17,30 @@ class MainActivity : AppCompatActivity() {
         withLockAfterPush = true
 
         withStringField {
-            name = STRING_FIELD_NAME
-            value = "Jarvis value"
+            name = "Name of the string field"
+            value = "Field value"
+        }
+
+        withLongField {
+            name = "Name of the long field"
+            value = 0L
+        }
+
+        withDoubleField {
+            name = "Name of the double field"
+            value = 1.0
+        }
+
+        withBooleanField {
+            name = "Name of the boolean field"
+            value = true
+        }
+
+        // Can also be used for enums
+        withStringListField {
+            name = "Name of the string list field"
+            value = listOf("a", "b", "c")
+            defaultSelection = 0
         }
     }
 
@@ -35,7 +57,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         /**
-         * 3. Push your app's Jarvis config to the Jarvis App.
+         * 3. Push your app's config to the Jarvis App.
          */
         with (jarvis) {
             loggingEnabled = true
