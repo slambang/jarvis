@@ -1,8 +1,8 @@
 # jarvis-demo-advanced
 
-Integrates the [JarvisClient](../jarvis-client) into a **debug only** build. Totally excludes Jarvis from a **release** build.
+Integrates the [JarvisClient](../jarvis-client) into a **debug only** build. Totally excludes Jarvis from a **release** build.  
 
-Also be aware of [jarvis-demo-simple](../jarvis-demo-simple) for a simpler setup to get started.  
+Please see [jarvis-demo-simple](../jarvis-demo-simple) for a basic setup to get started.  
 
 ### Scenario
 
