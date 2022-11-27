@@ -1,4 +1,4 @@
-package com.jarvis.app.data.database
+package com.jarvis.app.data.database.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

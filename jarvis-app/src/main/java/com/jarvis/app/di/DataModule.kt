@@ -2,7 +2,8 @@ package com.jarvis.app.di
 
 import android.content.Context
 import com.jarvis.app.data.database.JarvisDatabase
-import com.jarvis.app.data.database.JarvisFieldDao
+import com.jarvis.app.data.database.dao.JarvisFieldDao
+import com.jarvis.app.data.database.dao.JarvisSettingsDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,4 +23,8 @@ class DataModule {
     @Provides
     fun provideJarvisFieldDao(database: JarvisDatabase): JarvisFieldDao =
         database.jarvisFieldDao
+
+    @Provides
+    fun provideJarvisSettingsDao(database: JarvisDatabase): JarvisSettingsDao =
+        database.jarvisSettingsDao
 }

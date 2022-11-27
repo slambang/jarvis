@@ -1,6 +1,6 @@
 package com.jarvis.app.data
 
-import com.jarvis.app.data.database.JarvisFieldEntity
+import com.jarvis.app.data.database.entity.JarvisFieldEntity
 import com.jarvis.client.data.*
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.*

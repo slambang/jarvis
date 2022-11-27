@@ -31,11 +31,15 @@ class MainActivityViewModel @Inject constructor(
     }
 
     fun setJarvisIsLocked(isLocked: Boolean) {
-        settingsInteractor.isJarvisLocked = isLocked
+        viewModelScope.launch {
+            settingsInteractor.setIsJarvisLocked(isLocked)
+        }
     }
 
     fun setJarvisIsActive(isActive: Boolean) {
-        settingsInteractor.isJarvisActive = isActive
+        viewModelScope.launch {
+            settingsInteractor.setIsJarvisActive(isActive)
+        }
     }
 
     fun updateFieldValue(

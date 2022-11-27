@@ -1,9 +1,10 @@
-package com.jarvis.app.data.database
+package com.jarvis.app.data.database.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
+import com.jarvis.app.data.database.entity.JarvisFieldEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
