@@ -5,13 +5,13 @@ import com.jarvis.client.JarvisClient
 import com.jarvis.client.data.jarvisConfig
 import com.jarvis.demo.advanced.ConfigRepository
 
-fun getRepository(context: Context): ConfigRepository =
+fun injectRepository(context: Context): ConfigRepository =
     DebugConfigRepository(
         JarvisClient.newInstance(context)
     )
 
 /**
- * Only seen by the `debug` build variant.
+ * Only seen by the `debug` build variant
  */
 class DebugConfigRepository(
     private val jarvis: JarvisClient
@@ -19,7 +19,7 @@ class DebugConfigRepository(
 
     init {
         /**
-         * Step 1: Declare the Jarvis config.
+         * Step 1: Declare your app's config
          */
         val config = jarvisConfig {
 
@@ -27,12 +27,12 @@ class DebugConfigRepository(
 
             withStringField {
                 name = STRING_FIELD_NAME
-                value = "Jarvis value"
+                value = "Config value"
             }
         }
 
         /**
-         * Step 2: Push the config to the Jarvis App.
+         * Step 2: Push the config to the Jarvis App
          */
         with (jarvis) {
             loggingEnabled = true
@@ -41,10 +41,10 @@ class DebugConfigRepository(
     }
 
     /**
-     * Step 3: Read the value.
+     * Step 3: Read the value
      */
     override fun getStringValue(): String =
-        jarvis.getString(STRING_FIELD_NAME, "Debug value")
+        jarvis.getString(STRING_FIELD_NAME, "Default value")
 
     companion object {
         private const val STRING_FIELD_NAME = "String field (advanced demo)"

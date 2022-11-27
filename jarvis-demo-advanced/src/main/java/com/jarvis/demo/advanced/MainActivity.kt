@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.jarvis.demo.advanced.repository.getRepository
+import com.jarvis.demo.advanced.repository.injectRepository
 
 /**
  * Switch between `debug` and `release` build variants
@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
     /**
      * The interface whose implementation changes depending on te build variant.
      */
-    private val configRepo: ConfigRepository by lazy { getRepository(this) }
+    private val configRepo: ConfigRepository by lazy { injectRepository(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

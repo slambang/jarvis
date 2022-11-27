@@ -8,6 +8,5 @@ package com.jarvis.demo.advanced
  *  `release` (no Jarvis): [com.jarvis.demo.advanced.repository.ReleaseConfigRepository]
  */
 interface ConfigRepository {
-
     fun getStringValue(): String
 }

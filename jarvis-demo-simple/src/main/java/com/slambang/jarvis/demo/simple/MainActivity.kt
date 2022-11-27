@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
 
         withStringField {
             name = STRING_FIELD_NAME
-            value = "Jarvis value"
+            value = "Config value"
         }
     }
 

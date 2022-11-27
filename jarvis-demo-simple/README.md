@@ -4,11 +4,7 @@ Basic [JarvisClient](../jarvis-client) setup in 2 steps.
 
 - [1. Gradle dependency and FileProvider](#1-gradle-dependency-and-fileprovider)
 - [2. The code](#2-the-code)
-
-If the [Jarvis App](../jarvis-app) is installed then the config values are returned from there.
-If the [Jarvis App](../jarvis-app) is not installed then default values are returned.  
-
-Experiment with and without the [Jarvis App](../jarvis-app) being installed.
+- [Try it](#try-it)
 
 #### 1. Gradle dependency and FileProvider
 
@@ -49,7 +45,7 @@ class MainActivity : AppCompatActivity() {
 
         withStringField {
             name = STRING_FIELD_NAME
-            value = "Jarvis value"
+            value = "Config value"
         }
     }
 
@@ -86,3 +82,10 @@ class MainActivity : AppCompatActivity() {
     }
 }
 ```
+
+### Try it
+
+If the [Jarvis App](../jarvis-app) is installed then the config values are returned from there.
+If the [Jarvis App](../jarvis-app) is not installed then default values are returned.
+
+Experiment with and without the [Jarvis App](../jarvis-app) being installed.  
