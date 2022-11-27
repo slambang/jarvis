@@ -1,0 +1,1 @@
+sourceset_dependencies='{":jarvis-client:dokkaHtml/androidTestRelease":[],":jarvis-client:dokkaHtml/debug":[],":jarvis-client:dokkaHtml/main":[],":jarvis-client:dokkaHtml/release":[],":jarvis-client:dokkaHtml/testFixtures":[],":jarvis-client:dokkaHtml/testFixturesDebug":[],":jarvis-client:dokkaHtml/testFixturesRelease":[]}'

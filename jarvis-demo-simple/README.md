@@ -99,3 +99,5 @@ class MainActivity : AppCompatActivity() {
     }
 }
 ```
+
+Read [the client docs](https://htmlpreview.github.io/?https://github.com/slambang/jarvis/blob/add_html_docs/docs/index.html) for more information.
