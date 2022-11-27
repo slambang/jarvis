@@ -10,7 +10,7 @@ import com.jarvis.client.data.jarvisConfig
 class MainActivity : AppCompatActivity() {
 
     /**
-     * 1. Declare a Jarvis Config
+     * 1. Define your app's config
      */
     private val config = jarvisConfig {
 
@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
 
         withStringField {
             name = STRING_FIELD_NAME
-            value = "Jarvis value"
+            value = "Config value"
         }
     }
 
@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
 
         button.setOnClickListener {
             /**
-             * 4. Read the config value
+             * 4. Read config values
              */
             textView.text = jarvis.getString(STRING_FIELD_NAME, "Default value")
         }

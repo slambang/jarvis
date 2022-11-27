@@ -1,7 +1,7 @@
 package com.jarvis.app.domain.fields
 
-import com.jarvis.app.data.database.JarvisFieldDao
-import com.jarvis.app.data.database.JarvisFieldEntity
+import com.jarvis.app.data.database.dao.JarvisFieldDao
+import com.jarvis.app.data.database.entity.JarvisFieldEntity
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

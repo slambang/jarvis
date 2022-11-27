@@ -1,6 +1,6 @@
 ### JarvisClient
 
-This small library communicates with the [Jarvis App](../jarvis-app) to send and receive your app's config. You obtain an instance of [JarvisClient](src/main/java/com/jarvis/client/JarvisClient.kt) to manage a config that you define. Read [the client docs](https://htmlpreview.github.io/?https://github.com/slambang/jarvis/main/docs/index.html).
+This small library (API 16+) communicates with the [Jarvis App](../jarvis-app) to send and receive your app's config. You obtain an instance of [JarvisClient](src/main/java/com/jarvis/client/JarvisClient.kt) to manage a config that you define. Read [the client docs](https://htmlpreview.github.io/?https://github.com/slambang/jarvis/main/docs/index.html).
 
 There are just 4 quick steps to get setup:  
 - [1. Gradle dependency and FileProvider](#1-gradle-dependency-and-fileprovider)
@@ -89,7 +89,9 @@ val result = jarvis.pushConfigToJarvisApp(config)
 
 Now open the [Jarvis App](../jarvis-app) and the new config will be rendered:
 
-<img src="../images/jarvis_client_readme_config_rendered.png" width="400">
+<p align="center">
+    <img src="../images/jarvis_client_readme_config_rendered.png" width="300">
+</p>
 
 #### 4. Read values from the JarvisClient
 

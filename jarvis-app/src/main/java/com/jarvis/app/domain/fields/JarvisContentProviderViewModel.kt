@@ -1,6 +1,6 @@
 package com.jarvis.app.domain.fields
 
-import com.jarvis.app.domain.interactors.SettingsInteractor
+import com.jarvis.app.data.SettingsRepository
 import com.jarvis.app.domain.usecases.GetSingleFieldUseCase
 import com.jarvis.app.domain.usecases.RefreshConfigUseCase
 import com.jarvis.client.data.StringListField
@@ -8,19 +8,19 @@ import java.io.InputStream
 import javax.inject.Inject
 
 class JarvisContentProviderViewModel @Inject constructor(
-    private val settingsInteractor: SettingsInteractor,
+    private val settingsRepo: SettingsRepository,
     private val getSingleField: GetSingleFieldUseCase,
     private val refreshConfig: RefreshConfigUseCase
 ) {
     val isJarvisLocked: Boolean
-        get() = settingsInteractor.isJarvisLocked
+        get() = settingsRepo.isJarvisLocked
 
     val isJarvisActive: Boolean
-        get() = settingsInteractor.isJarvisActive
+        get() = settingsRepo.isJarvisActive
 
     fun onConfigPush(inputStream: InputStream) {
         refreshConfig(inputStream).also {
-            settingsInteractor.isJarvisLocked = it.lockAfterPush
+            settingsRepo.isJarvisLocked = it.lockAfterPush
         }
     }
 
