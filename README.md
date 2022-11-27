@@ -33,9 +33,10 @@ Use Jarvis if you:
 Jarvis has 2 parts:  
 
 1. [JarvisClient](jarvis-client)   
-   You integrate this small library with your own app. You define your app's config (in-code) which is pushed to the Jarvis App.
+   You integrate this small library with your own app. You define your app's config (in-code) which is pushed to the Jarvis App.  
+   Read [the client docs](https://htmlpreview.github.io/?https://github.com/slambang/jarvis/blob/add_html_docs/docs/index.html).
 
-2. [Jarvis App](jarvis-app)  
+3. [Jarvis App](jarvis-app)  
    You install this app on the same device as your own app. It receives and renders your app's config.
 
 ### Quickstart
