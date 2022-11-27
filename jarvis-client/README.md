@@ -89,7 +89,9 @@ val result = jarvis.pushConfigToJarvisApp(config)
 
 Now open the [Jarvis App](../jarvis-app) and the new config will be rendered:
 
-<img src="../images/jarvis_client_readme_config_rendered.png" width="400">
+<p align="center">
+    <img src="../images/jarvis_client_readme_config_rendered.png" width="300">
+</p>
 
 #### 4. Read values from the JarvisClient
 
