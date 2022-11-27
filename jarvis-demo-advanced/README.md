@@ -1,22 +1,24 @@
 # jarvis-demo-advanced
-Integrates the `JarvisClient` into a **debug only** build. Totally excludes Jarvis from a **release** build.  
-The motivation here is to demonstrate that Jarvis doesn't need to intrude on release builds.  
 
-Returns a String field to the test app, whose value depends on the build variant and Jarvis App config setup.  
+Integrates the [JarvisClient](../jarvis-client) into a **debug only** build. Totally excludes Jarvis from a **release** build.
 
-Please refer to the [jarvis-demo-simple](../jarvis-demo-simple) demo for bare minimum setup and example usage.  
+Also be aware of [jarvis-demo-simple](../jarvis-demo-simple) for a simpler setup to get started.  
 
-### Architecture
+### Scenario
 
-The app injects a common interface (`ConfigRepository`) whose implementation depends on the `debug` or `release` build variants.
-`ConfigRepository.getStringValue` will return different values depending on the build variant:
+The demo app injects a common interface [ConfigRepository](src/main/java/com/jarvis/demo/advanced/ConfigRepository.kt) whose implementation depends on the `debug` or `release` build variants.
 
 #### `debug` build variant
-Implements `DebugConfigRepository` which **does** use the `JarvisClient`.  
-If the Jarvis App is installed then the String value returned is as configured in the Jarvis App.  
-If the Jarvis App is not installed then it falls back to the default value as defined in the config.  
-There is **no hard dependency** on the Jarvis App being installed. It is totally optional.
+
+Implements [DebugConfigRepository](src/debug/java/com/jarvis/demo/advanced/repository/DebugConfigRepository.kt) which **does** use the [JarvisClient](../jarvis-client).
+Returns config values from the [Jarvis App](../jarvis-app) if installed. Otherwise returns default values.  
 
 #### `release` build variant
-Implements `ReleaseConfigRepository` which **does not** use the `JarvisClient`.  
-Returns the release version of the String field only.
+
+Implements [DebugConfigRepository](src/release/java/com/jarvis/demo/advanced/repository/ReleaseConfigRepository.kt) which **does not** use the [JarvisClient](../jarvis-client).  
+Returns the release version of config values only.  
+
+### Try it
+
+Switch between `debug` and `release` build variants.  
+For `debug` builds experiment with and without the [Jarvis App](../jarvis-app) being installed.

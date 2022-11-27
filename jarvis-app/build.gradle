@@ -24,17 +24,8 @@ android {
         buildConfigField "String", "JARVIS_CONFIG_AUTHORITY", "\"${JARVIS_CONFIG_AUTHORITY}\""
 
         manifestPlaceholders = [
-                jarvisConfigAuthority: "${JARVIS_CONFIG_AUTHORITY}"
+            jarvisConfigAuthority: "${JARVIS_CONFIG_AUTHORITY}"
         ]
-
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments += [
-                        "room.schemaLocation"  : "$projectDir/schemas".toString(),
-                        "room.incremental"     : "true",
-                        "room.expandProjection": "true"]
-            }
-        }
     }
 
     compileOptions {

@@ -10,6 +10,7 @@ internal class ClientJsonMapper {
         Json.encodeToString(config)
 }
 
+// Internal (shared with the Jarvis App).
 object JarvisFieldSerializer :
     JsonContentPolymorphicSerializer<JarvisField<*>>(JarvisField::class) {
 
