@@ -11,9 +11,9 @@
 
 ### What is it?
 
-Jarvis is a development tool for Android that provides an instant UI for your app's config.  
+Jarvis is a development tool for Android that provides an instant UI for your app's config. The config could be any piece of data that your app needs.  
 
-The [JarvisClient](jarvis-client) is used to define your app's config. The [Jarvis App](jarvis-app) allows you to edit & manage that config at runtime with **no code change**.
+The [JarvisClient](jarvis-client) is used to define your app's config. The [Jarvis App](jarvis-app) allows you to edit & manage that config at runtime **with no code change**.
 
 <p align="center">
    <img src="images/jarvis_app_edited_config_rendered.png" width="300"> <img src="images/jarvis_app_edit_string_list.png" width="300"> 
@@ -33,8 +33,7 @@ Use Jarvis if you:
 Jarvis has 2 parts:  
 
 1. [JarvisClient](jarvis-client)   
-   You integrate this small library with your own app. You define your app's config (in-code) which is pushed to the Jarvis App.  
-   Read [the client docs](https://htmlpreview.github.io/?https://github.com/slambang/jarvis/blob/add_html_docs/docs/index.html).
+   You integrate this small library with your own app. You define your app's config (in-code) which is pushed to the Jarvis App. Read [the client docs](https://htmlpreview.github.io/?https://github.com/slambang/jarvis/main/docs/index.html).
 
 3. [Jarvis App](jarvis-app)  
    You install this app on the same device as your own app. It receives and renders your app's config.
@@ -42,5 +41,5 @@ Jarvis has 2 parts:
 ### Quickstart
 
 See the demos:
-1. [jarvis-demo-simple](jarvis-demo-simple): Minimum setup in 3 easy steps.
-2. [jarvis-demo-advanced](jarvis-demo-advanced): Integrate Jarvis with a *debug-only* build.
+1. [jarvis-demo-simple](jarvis-demo-simple): Minimum [JarvisClient](jarvis-client) setup.
+2. [jarvis-demo-advanced](jarvis-demo-advanced): Integrate [JarvisClient](jarvis-client) with a **debug-only** build.

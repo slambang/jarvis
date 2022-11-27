@@ -6,7 +6,7 @@ Simple [JarvisClient](../jarvis-client) setup in 2 steps.
 - [2. The code](#2-the-code)
 
 If the [Jarvis App](../jarvis-app) is installed then the config values are returned from there.
-If the [Jarvis App](../jarvis-app) is not installed then default values are returned (as defined in the config).  
+If the [Jarvis App](../jarvis-app) is not installed then default values are returned.  
 
 Experiment with and without the [Jarvis App](../jarvis-app) being installed.
 
@@ -19,21 +19,6 @@ implementation 'com.github.slambang:jarvis:<LATEST>'
 ```
 
 Copy this [FileProvider](https://developer.android.com/reference/androidx/core/content/FileProvider) into your app's `AndroidManifest.xml`. It is required only for the client to push your config to the [Jarvis App](../jarvis-app):
-
-```xml
-<provider
-    android:name="androidx.core.content.FileProvider"
-    android:authorities="${applicationId}.jarvis_config_provider"
-    android:exported="false"
-    android:grantUriPermissions="true">
-
-    <meta-data
-        android:name="android.support.FILE_PROVIDER_PATHS"
-        android:resource="@xml/jarvis_client_file_paths" />
-</provider>
-```
-
-This is required so the [JarvisClient](../jarvis-client) can push your config to the [Jarvis App](../jarvis-app).  
 
 ```xml
 <provider
@@ -100,4 +85,4 @@ class MainActivity : AppCompatActivity() {
 }
 ```
 
-Read [the client docs](https://htmlpreview.github.io/?https://github.com/slambang/jarvis/blob/add_html_docs/docs/index.html) for more information.
+Read [the client docs](https://htmlpreview.github.io/?https://github.com/slambang/jarvis/main/docs/index.html) for more information.
