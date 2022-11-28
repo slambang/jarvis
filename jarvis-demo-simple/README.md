@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         /**
-         * 3. Push your app's config to the Jarvis App.
+         * 3. Push your app's config to the Jarvis App
          */
         with (jarvis) {
             loggingEnabled = true
