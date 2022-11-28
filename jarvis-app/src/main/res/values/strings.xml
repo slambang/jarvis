@@ -2,7 +2,7 @@
     <string name="app_name">Jarvis</string>
 
     <!-- Main View -->
-    <string name="no_config_message">No config.\n\nEnsure the Jarvis App is unlocked and a Jarvis config is pushed from your app to the Jarvis App.</string>
+    <string name="no_config_message">No config.\n\nEnsure this app is unlocked and your app\'s config has been pushed using a JarvisClient.</string>
 
     <!-- Menu -->
     <string name="menu_item_active">Active</string>
@@ -17,7 +17,7 @@
     <string name="toolbar_subtitle_inactive">Inactive</string>
     <string name="toolbar_subtitle_template" formatted="false">%s | %s</string>
 
-    <!-- CLear dialog -->
+    <!-- Clear dialog -->
     <string name="clear_fields_dialog_message">This will delete the config and clear any overridden values.</string>
     <string name="clear_fields_dialog_ok">Delete</string>
     <string name="clear_fields_dialog_cancel">Cancel</string>
