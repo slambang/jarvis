@@ -99,26 +99,24 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.menu_delete -> {
-                showDeleteConfigsDialog {
-                    viewModel.clearConfigs()
-                }
+                showDeleteConfigsDialog()
                 true
             }
             R.id.menu_help -> {
-                showHelpDialog()
+                showHelp()
                 true
             }
             else -> false
         }
 
-    private fun showDeleteConfigsDialog(onConfirm: () -> Unit) {
+    private fun showDeleteConfigsDialog() {
         if (alertDialog != null) return
 
         alertDialog = MaterialAlertDialogBuilder(this)
             .setTitle(R.string.menu_item_delete_all)
             .setMessage(R.string.clear_fields_dialog_message)
             .setPositiveButton(R.string.clear_fields_dialog_ok) { _, _ ->
-                onConfirm()
+                viewModel.clearConfigs()
             }
             .setNeutralButton(R.string.clear_fields_dialog_cancel, null)
             .setOnDismissListener {
@@ -155,7 +153,7 @@ class MainActivity : AppCompatActivity() {
                 }
     }
 
-    private fun showHelpDialog() {
+    private fun showHelp() {
         val uri = Uri.parse("https://github.com/slambang/jarvis/tree/main/jarvis-app")
         val intent = Intent(Intent.ACTION_VIEW, uri)
         startActivity(intent)
