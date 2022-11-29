@@ -27,6 +27,33 @@ Jarvis has 2 parts:
 1. [JarvisClient](jarvis-client)   
    You integrate this small library with your own app.  
    You define your app's config (in-code) which is pushed to the Jarvis App.
+   Values can then be read from the client.
+
+```kotlin
+/**
+ * 1. Define your app's config
+ */
+val config = jarvisConfig {
+
+    withLockAfterPush = true
+
+    withStringField {
+        name = "Config field name"
+        value = "Config value"
+    }
+}
+
+/**
+ * 2. Push your app's config to the Jarvis App
+ */
+val jarvis = JarvisClient.newInstance(context)
+jarvis.pushConfigToJarvisApp(config)
+
+/**
+ * 3. Read config values
+ */
+val value = jarvis.getString("Config field name", "Default value")
+```
 
 2. [Jarvis App](jarvis-app)  
    You install this app on the same device as your own app.  

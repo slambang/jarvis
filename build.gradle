@@ -2,6 +2,7 @@ buildscript {
     ext.kotlin_version = '1.7.20'
     ext.gradle_version = '7.3.1'
     ext.hilt_version = '2.42'
+    ext.room_version = '2.4.3'
 
     ext.buildToolsVersion = "33.0.0"
     ext.minimum_supported_android_version = 16

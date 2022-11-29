@@ -29,13 +29,13 @@ If it is installed then the value as defined there will be returned. If it is no
 
 2. **App Locked/Unlocked**: Enables & disables new config from being accepted  
    *Your app has already pushed its config to the Jarvis App and you don't want to keep overwriting it.*
-   - When **locked** the Jarvis App will reject any new incoming configs and maintain its current configuration state.  
+   - When **locked** the Jarvis App will reject any new incoming configs and maintain its current config state.  
    - When **unlocked** the Jarvis App will accept new incoming configs (removes the existing config).
 
 3. **Fields Published/Unpublished**: Enables & disables individual config fields  
-   *You want to enable/disable individual configuration fields without having to uninstall/reinstall the Jarvis App.*
-   - When a configuration field is **published** it will be returned by the Jarvis App.  
-   - When a configuration field is **unpublished** it will not be returned by the Jarvis App, causing the JarvisClient to return the default value.
+   *You want to enable/disable individual config fields without having to uninstall/reinstall the Jarvis App.*
+   - When a config field is **published** it will be returned by the Jarvis App.  
+   - When a config field is **unpublished** it will not be returned by the Jarvis App, causing the JarvisClient to return the default value.
 
 ### How many client app configs does it support?
 

@@ -1,10 +1,10 @@
 # jarvis-demo-simple
 
-Basic [JarvisClient](../jarvis-client) setup in 2 steps.  
+Basic [JarvisClient](../jarvis-client) demo in 3 steps.  
 
 - [1. Gradle dependency and FileProvider](#1-gradle-dependency-and-fileprovider)
 - [2. The code](#2-the-code)
-- [Try it](#try-it)
+- [3.Try it](#try-it)
 
 #### 1. Gradle dependency and FileProvider
 
@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         /**
-         * 3. Push your app's config to the Jarvis App.
+         * 3. Push your app's config to the Jarvis App
          */
         with (jarvis) {
             loggingEnabled = true

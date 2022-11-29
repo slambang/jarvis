@@ -1,10 +1,13 @@
 package com.jarvis.app.view.main
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.text.Spanned
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -12,7 +15,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import androidx.core.view.MenuCompat
 import androidx.core.view.isVisible
-import androidx.activity.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,6 +24,7 @@ import com.jarvis.app.view.main.editfielddialog.EditFieldDialogFactory
 import com.jarvis.app.view.main.recyclerview.ConfigItemListAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -96,26 +99,24 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.menu_delete -> {
-                showDeleteConfigsDialog {
-                    viewModel.clearConfigs()
-                }
+                showDeleteConfigsDialog()
                 true
             }
             R.id.menu_help -> {
-                showHelpDialog()
+                showHelp()
                 true
             }
             else -> false
         }
 
-    private fun showDeleteConfigsDialog(onConfirm: () -> Unit) {
+    private fun showDeleteConfigsDialog() {
         if (alertDialog != null) return
 
         alertDialog = MaterialAlertDialogBuilder(this)
             .setTitle(R.string.menu_item_delete_all)
             .setMessage(R.string.clear_fields_dialog_message)
             .setPositiveButton(R.string.clear_fields_dialog_ok) { _, _ ->
-                onConfirm()
+                viewModel.clearConfigs()
             }
             .setNeutralButton(R.string.clear_fields_dialog_cancel, null)
             .setOnDismissListener {
@@ -152,26 +153,10 @@ class MainActivity : AppCompatActivity() {
                 }
     }
 
-    private fun showHelpDialog() {
-        if (alertDialog != null) return
-
-        alertDialog = MaterialAlertDialogBuilder(this)
-            .setTitle("Help")
-            .setView(View.inflate(this, R.layout.view_dialog_help, null))
-            .setPositiveButton(android.R.string.ok, null)
-            .setOnDismissListener { alertDialog = null }
-            .show()
-
-        with(alertDialog!!) {
-            setOnShowListener {
-                getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(
-                    ContextCompat.getColor(
-                        context,
-                        R.color.colorAccent
-                    )
-                )
-            }
-        }
+    private fun showHelp() {
+        val uri = Uri.parse("https://github.com/slambang/jarvis/tree/main/jarvis-app")
+        val intent = Intent(Intent.ACTION_VIEW, uri)
+        startActivity(intent)
     }
 
     private fun fromHtml(source: String): Spanned =
