@@ -3,7 +3,6 @@ package com.jarvis.app.view.main
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.text.Spanned
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -12,7 +11,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
-import androidx.core.text.HtmlCompat
 import androidx.core.view.MenuCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -24,7 +22,6 @@ import com.jarvis.app.view.main.editfielddialog.EditFieldDialogFactory
 import com.jarvis.app.view.main.recyclerview.ConfigItemListAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -75,18 +72,12 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.menuState.observe(this) {
             configListAdapter.deactivateAllFields = !it.isActive
-            toolbar.subtitle = styleSubtitle(it)
+            toolbar.subtitle = it.toolbarSubtitle
             menu.findItem(R.id.menu_lock).isChecked = it.isLocked
             menu.findItem(R.id.menu_active).isChecked = it.isActive
         }
         return true
     }
-
-    private fun styleSubtitle(menuModel: MainMenuViewModel): Spanned =
-        when (menuModel.isActive) {
-            true -> fromHtml(menuModel.toolbarSubtitle)
-            false -> fromHtml("<font color='#FF0000'>${menuModel.toolbarSubtitle}</font>")
-        }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean =
         when (item.itemId) {
@@ -158,7 +149,4 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(Intent.ACTION_VIEW, uri)
         startActivity(intent)
     }
-
-    private fun fromHtml(source: String): Spanned =
-        HtmlCompat.fromHtml(source, HtmlCompat.FROM_HTML_MODE_LEGACY)
 }
