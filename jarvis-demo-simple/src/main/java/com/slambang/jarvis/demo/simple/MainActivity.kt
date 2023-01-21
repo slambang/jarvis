@@ -5,7 +5,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.jarvis.client.JarvisClient
-import com.jarvis.client.data.jarvisConfig
+import com.jarvis.client.data.builders.jarvisConfig
 
 class MainActivity : AppCompatActivity() {
 

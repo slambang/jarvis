@@ -9,5 +9,7 @@ abstract class SimpleCursor : AbstractCursor() {
     override fun getLong(column: Int): Long = unsupported()
     override fun getFloat(column: Int): Float = unsupported()
     override fun getDouble(column: Int): Double = unsupported()
-    private fun unsupported(): Nothing = throw UnsupportedOperationException("Unsupported.")
+
+    private fun unsupported(): Nothing =
+        throw UnsupportedOperationException("Unsupported.")
 }

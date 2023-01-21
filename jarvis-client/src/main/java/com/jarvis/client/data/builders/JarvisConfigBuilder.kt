@@ -1,6 +1,8 @@
-package com.jarvis.client.data
+package com.jarvis.client.data.builders
 
 import com.jarvis.client.JarvisClient
+import com.jarvis.client.data.JarvisConfig
+import com.jarvis.client.data.JarvisConfigGroup
 import java.lang.IllegalStateException
 
 /**
@@ -12,7 +14,7 @@ fun jarvisConfig(block: JarvisConfigBuilder.() -> Unit): JarvisConfig =
 
 /**
  * Builder to create a [JarvisConfig].
- * Use this class to add different config field types.
+ * @see [JarvisClient.pushConfigToJarvisApp]
  */
 class JarvisConfigBuilder {
 
@@ -35,11 +37,6 @@ class JarvisConfigBuilder {
     fun withGroup(block: GroupBuilder.() -> Unit): Unit =
         addGroup(GroupBuilder().apply(block).build())
 
-    /**
-     * Returns the Jarvis config according to the fields that have been set.
-     *
-     * @return [JarvisConfig] to (be passed to [JarvisClient.pushConfigToJarvisApp]).
-     */
     internal fun build(): JarvisConfig =
         JarvisConfig(withLockAfterPush, groups)
 

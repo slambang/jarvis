@@ -7,7 +7,7 @@ import com.jarvis.app.BuildConfig
 import com.jarvis.app.contentprovider.util.ReadOnlyContentProvider
 import com.jarvis.app.di.JarvisContentProviderEntryPoint
 import com.jarvis.app.domain.fields.JarvisContentProviderViewModel
-import java.lang.RuntimeException
+import java.lang.IllegalArgumentException
 
 class JarvisContentProvider : ReadOnlyContentProvider() {
 
@@ -26,16 +26,16 @@ class JarvisContentProvider : ReadOnlyContentProvider() {
     ): Cursor {
         log("URI received: `$uri`.")
 
-        val returnValue = when {
-            isRefreshConfigUri(uri) -> onConfigLocationReceived(uri).toString()
-            isReadFieldUri(uri) -> onReadRequestReceived(uri)
-            else -> onUnexpectedUriReceived(uri)
+        val result = when {
+            uri.isReadConfigField() -> readConfigField(uri)
+            uri.isConfigPush() -> handleConfigPush(uri).toString()
+            else -> throw IllegalArgumentException("Invalid uri: $uri.")
         }
 
-        return JarvisCursor(returnValue)
+        return JarvisCursor(result)
     }
 
-    private fun onConfigLocationReceived(uri: Uri): Int {
+    private fun handleConfigPush(uri: Uri): Int {
         log("- Config file URI received: $uri")
 
         if (viewModel.isJarvisLocked) {
@@ -47,12 +47,12 @@ class JarvisContentProvider : ReadOnlyContentProvider() {
             log("- Pulling config file.")
 
             val jarvisConfigFilePath = uri.getQueryParameter(JARVIS_CONFIG_FILE_URI)
-                ?: throw RuntimeException("Failed to get config file URI.")
+                ?: throw IllegalStateException("Failed to get config file URI.")
 
             val jarvisConfigFileUri = Uri.parse(jarvisConfigFilePath)
 
             val stream = context!!.contentResolver.openInputStream(jarvisConfigFileUri)
-                ?: throw RuntimeException("Failed to open config input stream.")
+                ?: throw IllegalStateException("Failed to open config input stream.")
 
             stream.use {
                 viewModel.onConfigPush(it)
@@ -65,25 +65,20 @@ class JarvisContentProvider : ReadOnlyContentProvider() {
         }
     }
 
-    private fun onReadRequestReceived(uri: Uri): String? {
+    private fun readConfigField(uri: Uri): String {
         log("- Reading value '${uri.pathSegments[PATH_CONFIG_VALUE_INDEX]}'.")
-        val configValue = readFieldValue(uri)
+        val configValue = readFieldValue(uri) ?: throw IllegalStateException("Value is null.")
         log("- Success. Returning '$configValue'.")
         return configValue
     }
 
-    private fun onUnexpectedUriReceived(uri: Uri): String? {
-        log("- Unknown uri: $uri.")
-        return null
-    }
+    private fun Uri.isConfigPush(): Boolean =
+        this.getQueryParameter(JARVIS_CONFIG_FILE_URI) != null
 
-    private fun isRefreshConfigUri(uri: Uri): Boolean =
-        uri.getQueryParameter(JARVIS_CONFIG_FILE_URI) != null
-
-    private fun isReadFieldUri(uri: Uri): Boolean =
-        uri.authority == BuildConfig.JARVIS_CONFIG_AUTHORITY &&
-                uri.pathSegments.size == 2 &&
-                uri.pathSegments[PATH_VALUE_INDEX] == PATH_VALUE
+    private fun Uri.isReadConfigField(): Boolean =
+        this.authority == BuildConfig.JARVIS_CONFIG_AUTHORITY &&
+                this.pathSegments.size == 2 &&
+                this.pathSegments[PATH_VALUE_INDEX] == PATH_VALUE
 
     private fun readFieldValue(uri: Uri): String? {
         if (!viewModel.isJarvisActive) return null

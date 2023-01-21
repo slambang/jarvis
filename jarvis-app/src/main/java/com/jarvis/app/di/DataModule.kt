@@ -21,10 +21,12 @@ class DataModule {
         JarvisDatabase.newInstance(context)
 
     @Provides
+    @Singleton
     fun provideJarvisFieldDao(database: JarvisDatabase): JarvisFieldDao =
         database.jarvisFieldDao
 
     @Provides
+    @Singleton
     fun provideJarvisSettingsDao(database: JarvisDatabase): JarvisSettingsDao =
         database.jarvisSettingsDao
 }

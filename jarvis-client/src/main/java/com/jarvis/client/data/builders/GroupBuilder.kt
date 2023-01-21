@@ -1,7 +1,9 @@
 @file:Suppress("MemberVisibilityCanBePrivate", "Unused", "UNCHECKED_CAST")
 
-package com.jarvis.client.data
+package com.jarvis.client.data.builders
 
+import com.jarvis.client.data.JarvisConfigGroup
+import com.jarvis.client.data.JarvisField
 import java.lang.IllegalStateException
 
 /**
@@ -11,7 +13,8 @@ import java.lang.IllegalStateException
 class GroupBuilder {
 
     /**
-     * The name of the group. Must be unique.
+     * The name of the group.
+     * Must be unique.
      */
     var name: String? = null
 

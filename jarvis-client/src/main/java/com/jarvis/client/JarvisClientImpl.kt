@@ -26,9 +26,7 @@ internal class JarvisClientImpl(
 
         @SuppressLint("QueryPermissionsNeeded")
         val queryResult = context.packageManager.getInstalledPackages(PackageManager.GET_PROVIDERS)
-            .firstOrNull {
-                it.packageName == JARVIS_APP_PACKAGE
-            }
+            .firstOrNull { it.packageName == JARVIS_APP_PACKAGE }
         log("- Jarvis App ContentProvider query: ${if (queryResult != null) "Success" else "Failure"}.")
 
         val jarvisConfigFile = writeConfigToFile(config)
@@ -144,16 +142,16 @@ internal class JarvisClientImpl(
     private fun <T : Any> safeGetConfig(
         name: String,
         lazyDefaultValue: () -> T,
-        asDataType: String.() -> T
+        toDataType: String.() -> T
     ): T = try {
         log("Reading '$name'.")
-        val value = getConfigValue(name, lazyDefaultValue).asDataType()
-        log("- Success: Returning value '$value'.")
-        value
+        getConfigValue(name, lazyDefaultValue).toDataType().also {
+            log("- Success: Returning value '$it'.")
+        }
     } catch (error: Throwable) {
-        val defaultValue = lazyDefaultValue()
-        log("- Failed: $error. Returning default value '$defaultValue'.")
-        defaultValue
+        lazyDefaultValue().also {
+            log("- Failed: $error. Returning default value '$it'.")
+        }
     }
 
     private fun <T : Any> getConfigValue(
@@ -193,7 +191,7 @@ internal class JarvisClientImpl(
             }
 
             configValue ?: run {
-                log("- Failed: Returning default.")
+                log("- Failed: Returning default value.")
                 lazyDefaultValue().toString()
             }
         }
@@ -207,17 +205,7 @@ internal class JarvisClientImpl(
 
         val fileOutputStream = FileOutputStream(destinationFile)
         val configInputStream = jsonMapper.mapToJsonString(config).byteInputStream()
-
-        configInputStream.use { inputStream ->
-            fileOutputStream.use { outputStream ->
-                var read: Int
-                val buff = ByteArray(2048)
-
-                while (inputStream.read(buff).also { read = it } > 0) {
-                    outputStream.write(buff, 0, read)
-                }
-            }
-        }
+        configInputStream.copyTo(fileOutputStream)
 
         return destinationFile
     }

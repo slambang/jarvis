@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.jarvis.demo.advanced.repository.injectRepository
 
 /**
- * Switch between `debug` and `release` build variants
+ * Switch between debug and release build variants
  * to change the implementation of [ConfigRepository].
  */
 class MainActivity : AppCompatActivity() {

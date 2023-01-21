@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
     private val viewModel: MainActivityViewModel by viewModels()
 
     @Inject
-    lateinit var editFieldDialogFactory: EditFieldDialogFactory
+    lateinit var getEditFieldDialog: EditFieldDialogFactory
 
     private lateinit var configListAdapter: ConfigItemListAdapter
 
@@ -128,20 +128,17 @@ class MainActivity : AppCompatActivity() {
     private fun showEditFieldDialog(item: FieldItemViewModel<*>) {
         if (alertDialog != null) return
 
-        fun onDismiss() {
+        fun onDialogDismiss() {
             alertDialog?.dismiss()
             alertDialog = null
         }
 
-        fun onFieldUpdated(newValue: Any, isPublished: Boolean) {
+        fun onFieldUpdate(newValue: Any, isPublished: Boolean) {
             viewModel.updateFieldValue(item, newValue, isPublished)
         }
 
-        alertDialog =
-            editFieldDialogFactory.getEditFieldDialog(item, this, ::onDismiss, ::onFieldUpdated)
-                .also {
-                    it.show()
-                }
+        alertDialog = getEditFieldDialog(item, this, ::onDialogDismiss, ::onFieldUpdate)
+            .also { it.show() }
     }
 
     private fun showHelp() {
