@@ -36,7 +36,7 @@ android {
 
 dependencies {
     // Note: The Jarvis Client dependency is only included in *debug* builds.
-    debugImplementation 'com.github.slambang:jarvis:v1.0.3'
+    debugImplementation project(":jarvis-client")
 
     implementation "com.google.android.material:material:1.7.0"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"

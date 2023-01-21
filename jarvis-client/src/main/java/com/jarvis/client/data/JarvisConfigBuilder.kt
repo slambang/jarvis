@@ -1,5 +1,3 @@
-@file:Suppress("UNCHECKED_CAST", "MemberVisibilityCanBePrivate", "UNUSED")
-
 package com.jarvis.client.data
 
 import com.jarvis.client.JarvisClient
@@ -13,10 +11,9 @@ fun jarvisConfig(block: JarvisConfigBuilder.() -> Unit): JarvisConfig =
     JarvisConfigBuilder().apply(block).build()
 
 /**
- * Builder pattern to create a [JarvisConfig].
+ * Builder to create a [JarvisConfig].
  * Use this class to add different config field types.
  */
-@JarvisDsl
 class JarvisConfigBuilder {
 
     /**
@@ -28,65 +25,28 @@ class JarvisConfigBuilder {
      */
     var withLockAfterPush = true
 
-    private val fields = mutableListOf<JarvisField<Any>>()
+    private val groups = mutableListOf<JarvisConfigGroup>()
 
     /**
-     * Adds a String field to the config.
+     * Adds a field group to the config.
      *
-     * Creates a [StringFieldBuilder] and calls the function block on it.
+     * Creates a [GroupBuilder] and calls the function block on it.
      */
-    fun withStringField(block: StringFieldBuilder.() -> Unit) {
-        addField(StringFieldBuilder().apply(block).build() as JarvisField<Any>)
-    }
-
-    /**
-     * Adds a Long field to the config.
-     *
-     * Creates a [LongFieldBuilder] and calls the function block on it.
-     */
-    fun withLongField(block: LongFieldBuilder.() -> Unit) {
-        addField(LongFieldBuilder().apply(block).build() as JarvisField<Any>)
-    }
-
-    /**
-     * Adds a Double field to the config.
-     *
-     * Creates a [DoubleFieldBuilder] and calls the function block on it.
-     */
-    fun withDoubleField(block: DoubleFieldBuilder.() -> Unit) {
-        addField(DoubleFieldBuilder().apply(block).build() as JarvisField<Any>)
-    }
-
-    /**
-     * Adds a Boolean field to the config.
-     *
-     * Creates a [BooleanFieldBuilder] and calls the function block on it.
-     */
-    fun withBooleanField(block: BooleanFieldBuilder.() -> Unit) {
-        addField(BooleanFieldBuilder().apply(block).build() as JarvisField<Any>)
-    }
-
-    /**
-     * Adds a String List field to the config.
-     *
-     * Creates a [StringListFieldBuilder] and calls the function block on it.
-     */
-    fun withStringListField(block: StringListFieldBuilder.() -> Unit) {
-        addField(StringListFieldBuilder().apply(block).build() as JarvisField<Any>)
-    }
+    fun withGroup(block: GroupBuilder.() -> Unit): Unit =
+        addGroup(GroupBuilder().apply(block).build())
 
     /**
      * Returns the Jarvis config according to the fields that have been set.
      *
      * @return [JarvisConfig] to (be passed to [JarvisClient.pushConfigToJarvisApp]).
      */
-    fun build(): JarvisConfig =
-        JarvisConfig(withLockAfterPush, fields.toList())
+    internal fun build(): JarvisConfig =
+        JarvisConfig(withLockAfterPush, groups)
 
-    private fun addField(field: JarvisField<Any>) {
-        fields.find { it.name == field.name }?.let {
-            throw IllegalStateException("Duplicate Jarvis field name `${it.name}`.")
+    private fun addGroup(group: JarvisConfigGroup) {
+        groups.find { it.name == group.name }?.let {
+            throw IllegalStateException("Duplicate Jarvis group name `${it.name}`.")
         }
-        fields.add(field)
+        groups.add(group)
     }
 }

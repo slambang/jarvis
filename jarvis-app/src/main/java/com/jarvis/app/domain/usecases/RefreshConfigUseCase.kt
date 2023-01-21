@@ -12,7 +12,7 @@ class RefreshConfigUseCase @Inject constructor(
 ) {
     operator fun invoke(inputStream: InputStream): JarvisConfig {
         val jarvisConfig = jsonMapper.readConfig(inputStream)
-        val fieldEntities = jarvisConfig.fields.map(jsonMapper::mapToJarvisFieldEntity)
+        val fieldEntities = jarvisConfig.groups[0].fields.map(jsonMapper::mapToJarvisFieldEntity)
         jarvisFieldRepository.refreshConfig(fieldEntities)
         return jarvisConfig
     }

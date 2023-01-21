@@ -16,9 +16,15 @@ class MainActivity : AppCompatActivity() {
 
         withLockAfterPush = true
 
-        withStringField {
-            name = STRING_FIELD_NAME
-            value = "Config value"
+        withGroup {
+            name = "My config group"
+            isCollapsable = true
+            startCollapsed = false
+
+            withStringField {
+                name = STRING_FIELD_NAME
+                value = "Config value"
+            }
         }
     }
 

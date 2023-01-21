@@ -1,12 +1,26 @@
+@file:Suppress("MemberVisibilityCanBePrivate")
+
 package com.jarvis.client.data
 
 abstract class BaseFieldBuilder<T> {
+
+    /**
+     * The name of the field. Must be unique per [JarvisConfigGroup].
+     */
     lateinit var name: String
+
+    /**
+     * The value of the field.
+     */
+
     var value: T? = null
+
+    /**
+     * The user-friendly description of the field.
+     */
     var description: String? = null
 }
 
-@JarvisDsl
 class StringFieldBuilder : BaseFieldBuilder<String>() {
 
     /**
@@ -44,7 +58,6 @@ class StringFieldBuilder : BaseFieldBuilder<String>() {
         )
 }
 
-@JarvisDsl
 class LongFieldBuilder : BaseFieldBuilder<Long>() {
 
     /**
@@ -82,7 +95,6 @@ class LongFieldBuilder : BaseFieldBuilder<Long>() {
         )
 }
 
-@JarvisDsl
 class DoubleFieldBuilder : BaseFieldBuilder<Double>() {
 
     /**
@@ -120,7 +132,6 @@ class DoubleFieldBuilder : BaseFieldBuilder<Double>() {
         )
 }
 
-@JarvisDsl
 class BooleanFieldBuilder : BaseFieldBuilder<Boolean>() {
 
     fun build(): BooleanField =
@@ -134,7 +145,6 @@ class BooleanFieldBuilder : BaseFieldBuilder<Boolean>() {
         )
 }
 
-@JarvisDsl
 class StringListFieldBuilder : BaseFieldBuilder<List<String>>() {
 
     /**
