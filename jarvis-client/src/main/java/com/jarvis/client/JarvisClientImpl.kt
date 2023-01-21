@@ -12,13 +12,18 @@ import com.jarvis.client.data.JarvisConfig
 import java.io.File
 import java.io.FileOutputStream
 import java.lang.IllegalArgumentException
+import java.lang.ref.WeakReference
 
 internal class JarvisClientImpl(
-    private val context: Context,
+    applicationContext: Context,
     private val jsonMapper: ClientJsonMapper
 ): JarvisClient {
 
     override var loggingEnabled = false
+
+    private val _contextRef = WeakReference(applicationContext)
+    private val context: Context
+        get() = _contextRef.get()!!
 
     override fun pushConfigToJarvisApp(config: JarvisConfig): JarvisPushConfigResult {
 
