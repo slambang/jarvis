@@ -15,7 +15,7 @@ class AppJsonMapper @Inject constructor() {
 
     @Suppress("UNCHECKED_CAST")
     fun mapJarvisFieldDomain(jarvisFieldEntity: JarvisFieldEntity): JarvisField<Any> =
-        Json.decodeFromString(JarvisFieldSerializer, jarvisFieldEntity.jsonModel) as JarvisField<Any>
+        Json.decodeFromString(JarvisInternalFieldSerializer, jarvisFieldEntity.jsonModel) as JarvisField<Any>
 
     fun mapToJarvisFieldEntity(
         groupName: String,

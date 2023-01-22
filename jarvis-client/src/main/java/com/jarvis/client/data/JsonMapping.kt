@@ -6,7 +6,7 @@ import kotlinx.serialization.json.*
 import java.lang.IllegalArgumentException
 
 fun <T> JarvisField<T>.toJson(): String =
-    Json.encodeToString(JarvisFieldSerializer, this)
+    Json.encodeToString(JarvisInternalFieldSerializer, this)
 
 fun JarvisConfig.toJson(): String =
     Json.encodeToString(this)
@@ -14,7 +14,7 @@ fun JarvisConfig.toJson(): String =
 /**
  * This is an internal class shared with the Jarvis App. Do not use.
  */
-/* internal */ object JarvisFieldSerializer :
+/* internal */ object JarvisInternalFieldSerializer :
     JsonContentPolymorphicSerializer<JarvisField<*>>(JarvisField::class) {
 
     override fun selectDeserializer(element: JsonElement): DeserializationStrategy<out JarvisField<*>> =

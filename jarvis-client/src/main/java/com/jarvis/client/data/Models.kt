@@ -21,7 +21,7 @@ data class JarvisConfigGroup(
 )
 
 @Keep
-@Serializable(with = JarvisFieldSerializer::class)
+@Serializable(with = JarvisInternalFieldSerializer::class)
 sealed class JarvisField<T> {
     abstract val type: String
     abstract val name: String
