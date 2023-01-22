@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- This is merged into client app manifest -->
+    <!-- This is merged into client the app manifest -->
     <queries>
         <package android:name="com.jarvis.app" />
     </queries>
