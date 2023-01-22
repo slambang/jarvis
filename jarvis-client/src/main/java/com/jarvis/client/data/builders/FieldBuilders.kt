@@ -15,13 +15,14 @@ abstract class BaseFieldBuilder<T> {
     /**
      * The value of the field.
      */
-
     var value: T? = null
 
     /**
      * The user-friendly description of the field.
      */
     var description: String? = null
+
+    internal abstract fun build(): JarvisField<T>
 }
 
 class StringFieldBuilder : BaseFieldBuilder<String>() {
@@ -46,7 +47,7 @@ class StringFieldBuilder : BaseFieldBuilder<String>() {
      */
     var regex: String? = null
 
-    internal fun build(): JarvisField<String> =
+    override fun build(): JarvisField<String> =
         StringField(
             StringField::class.java.simpleName,
             name,
@@ -83,7 +84,7 @@ class LongFieldBuilder : BaseFieldBuilder<Long>() {
      */
     var asRange: Boolean = false
 
-    internal fun build(): LongField =
+    override fun build(): LongField =
         LongField(
             LongField::class.java.simpleName,
             name,
@@ -120,7 +121,7 @@ class DoubleFieldBuilder : BaseFieldBuilder<Double>() {
      */
     var asRange: Boolean = false
 
-    internal fun build(): DoubleField =
+    override fun build(): DoubleField =
         DoubleField(
             DoubleField::class.java.simpleName,
             name,
@@ -137,7 +138,7 @@ class DoubleFieldBuilder : BaseFieldBuilder<Double>() {
 
 class BooleanFieldBuilder : BaseFieldBuilder<Boolean>() {
 
-    internal fun build(): BooleanField =
+    override fun build(): BooleanField =
         BooleanField(
             BooleanField::class.java.simpleName,
             name,
@@ -155,7 +156,7 @@ class StringListFieldBuilder : BaseFieldBuilder<List<String>>() {
      */
     var defaultSelection = 0
 
-    internal fun build(): StringListField =
+    override fun build(): StringListField =
         StringListField(
             StringListField::class.java.simpleName,
             name,
