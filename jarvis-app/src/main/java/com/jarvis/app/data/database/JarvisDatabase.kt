@@ -12,12 +12,14 @@ import com.jarvis.app.data.database.entity.JarvisSettingsEntity
 
 @Database(
     version = 1,
+    exportSchema = false,
     entities = [
         JarvisFieldEntity::class,
         JarvisSettingsEntity::class
     ]
 )
 abstract class JarvisDatabase : RoomDatabase() {
+
 
     abstract val jarvisFieldDao: JarvisFieldDao
 
