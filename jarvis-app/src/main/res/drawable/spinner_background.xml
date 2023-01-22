@@ -22,7 +22,7 @@
             <item>
                 <bitmap
                     android:gravity="right"
-                    android:src="@drawable/down_arrow" />
+                    android:src="@drawable/down_arrow_spinner" />
             </item>
         </layer-list>
     </item>

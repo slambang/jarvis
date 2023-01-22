@@ -38,8 +38,17 @@ class JarvisConfigBuilder {
     fun withGroup(block: GroupBuilder.() -> Unit): Unit =
         addGroup(GroupBuilder().apply(block).build())
 
-    internal fun build(): JarvisConfig =
-        JarvisConfig(lockAfterPush, groups)
+    internal fun build(): JarvisConfig {
+        assertAllFieldsUnique()
+        return JarvisConfig(lockAfterPush, groups)
+    }
+
+    private fun assertAllFieldsUnique() {
+        val allFields = groups.map { it.fields }.flatten()
+        val uniqueFields = allFields.distinctBy { it.name }
+        if (allFields.size != uniqueFields.size)
+            throw IllegalArgumentException("${allFields.size - uniqueFields.size} duplicate fields found.")
+    }
 
     private fun addGroup(group: JarvisConfigGroup) {
         groups.find { it.name == group.name }?.let {

@@ -33,5 +33,7 @@
     <string name="validation_min_length">Min length is %s.</string>
     <string name="validation_max_length">Max length is %s.</string>
     <string name="validation_empty_not_allowed">This field cannot be empty.</string>
-    <string name="validation_string_regex_failed">Regex failed:  %s</string>
+    <string name="validation_string_regex_failed">Regex failed: %s</string>
+
+    <string name="group_collapsing_toggle_description">Expand and collapse this group</string>
 </resources>

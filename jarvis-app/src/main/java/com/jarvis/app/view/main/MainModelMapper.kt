@@ -41,7 +41,7 @@ class MainModelMapper @Inject constructor(
             ConfigGroupItemViewModel(
                 name = groupDomain.name,
                 isCollapsable = groupDomain.isCollapsable,
-                startCollapsed = groupDomain.startCollapsed,
+                isCollapsed = groupDomain.startCollapsed,
                 fields = (groupDomain.fields as List<JarvisField<*>>).map { fieldDomain ->
                     when (fieldDomain) {
                         is StringField -> mapStringField(fieldDomain)

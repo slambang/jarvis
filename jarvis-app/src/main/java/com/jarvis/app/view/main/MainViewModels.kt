@@ -11,7 +11,7 @@ data class MainMenuViewModel(
 data class ConfigGroupItemViewModel(
     val name: String,
     val isCollapsable: Boolean,
-    val startCollapsed: Boolean,
+    var isCollapsed: Boolean,
     val fields: List<FieldItemViewModel<*>>
 )
 

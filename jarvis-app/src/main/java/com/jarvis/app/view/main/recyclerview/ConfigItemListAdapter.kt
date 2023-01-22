@@ -10,9 +10,9 @@ import com.jarvis.app.view.main.*
 
 class ConfigItemListAdapter(
     private val onItemClicked: (FieldItemViewModel<*>) -> Unit
-) : RecyclerView.Adapter<ConfigListItemViewHolder>() {
+) : RecyclerView.Adapter<GroupItemViewHolder>() {
 
-    private val differ: AsyncListDiffer<FieldItemViewModel<*>> =
+    private val differ: AsyncListDiffer<ConfigGroupItemViewModel> =
         AsyncListDiffer(this, differCallback)
 
     var deactivateAllFields: Boolean = false
@@ -24,33 +24,33 @@ class ConfigItemListAdapter(
 
     override fun getItemCount() = differ.currentList.size
 
-    fun setFields(fields: List<FieldItemViewModel<*>>) {
-        differ.submitList(fields)
+    fun setGroups(groups: List<ConfigGroupItemViewModel>) {
+        differ.submitList(groups)
     }
 
     override fun onCreateViewHolder(
         viewGroup: ViewGroup,
         viewType: Int
-    ): ConfigListItemViewHolder =
-        ConfigListItemViewHolder(
+    ): GroupItemViewHolder =
+        GroupItemViewHolder(
             LayoutInflater.from(viewGroup.context)
-                .inflate(R.layout.view_field_list_item, viewGroup, false),
+                .inflate(R.layout.view_config_group, viewGroup, false),
             onItemClicked
         )
 
-    override fun onBindViewHolder(viewHolder: ConfigListItemViewHolder, position: Int) =
-        viewHolder.bind(differ.currentList[position], deactivateAllFields)
+    override fun onBindViewHolder(viewHolder: GroupItemViewHolder, position: Int) =
+        viewHolder.bind(differ.currentList[position], !deactivateAllFields)
 }
 
-private val differCallback = object : DiffUtil.ItemCallback<FieldItemViewModel<*>>() {
+private val differCallback = object : DiffUtil.ItemCallback<ConfigGroupItemViewModel>() {
 
     override fun areItemsTheSame(
-        oldItem: FieldItemViewModel<*>,
-        newItem: FieldItemViewModel<*>
+        oldItem: ConfigGroupItemViewModel,
+        newItem: ConfigGroupItemViewModel
     ): Boolean = oldItem.name == newItem.name
 
     override fun areContentsTheSame(
-        oldItem: FieldItemViewModel<*>,
-        newItem: FieldItemViewModel<*>
+        oldItem: ConfigGroupItemViewModel,
+        newItem: ConfigGroupItemViewModel
     ): Boolean = oldItem == newItem
 }

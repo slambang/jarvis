@@ -17,13 +17,24 @@ class MainActivity : AppCompatActivity() {
         lockAfterPush = true
 
         withGroup {
-            name = "My config group"
+            name = "Group 1"
             isCollapsable = true
             startCollapsed = false
 
             withStringField {
-                name = STRING_FIELD_NAME
-                value = "Config value"
+                name = STRING_FIELD_NAME_1
+                value = "Config value 1"
+            }
+        }
+
+        withGroup {
+            name = "Group 2"
+            isCollapsable = true
+            startCollapsed = true
+
+            withStringField {
+                name = STRING_FIELD_NAME_2
+                value = "Config value 2"
             }
         }
     }
@@ -49,11 +60,12 @@ class MainActivity : AppCompatActivity() {
             /**
              * 4. Read config values
              */
-            textView.text = jarvis.getString(STRING_FIELD_NAME, "Default value")
+            textView.text = jarvis.getString(STRING_FIELD_NAME_2, "Default value")
         }
     }
 
     companion object {
-        private const val STRING_FIELD_NAME = "String field (simple demo)"
+        private const val STRING_FIELD_NAME_1 = "String 1"
+        private const val STRING_FIELD_NAME_2 = "String 2"
     }
 }

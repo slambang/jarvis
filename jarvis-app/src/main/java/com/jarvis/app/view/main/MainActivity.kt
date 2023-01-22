@@ -13,8 +13,6 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.MenuCompat
 import androidx.core.view.isVisible
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.jarvis.app.R
@@ -56,14 +54,13 @@ class MainActivity : AppCompatActivity() {
 
         recyclerView = findViewById<RecyclerView>(R.id.config_item_list).apply {
             adapter = configListAdapter
-            addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
         }
     }
 
     private fun onConfigsReceived(configItems: List<ConfigGroupItemViewModel>) {
         emptyView.isVisible = configItems.isEmpty()
         recyclerView.isVisible = configItems.isNotEmpty()
-        if (configItems.isNotEmpty()) configListAdapter.setFields(configItems[0].fields)
+        configListAdapter.setGroups(configItems)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

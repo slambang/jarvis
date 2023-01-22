@@ -7,8 +7,7 @@ import com.jarvis.client.data.*
 abstract class BaseFieldBuilder<T> {
 
     /**
-     * The name of the field.
-     * Must be unique per [JarvisConfigGroup].
+     * The name of the field. Must be unique.
      */
     lateinit var name: String
 

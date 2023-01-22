@@ -13,8 +13,7 @@ import java.lang.IllegalStateException
 class GroupBuilder {
 
     /**
-     * The name of the group.
-     * Must be unique.
+     * The name of the group. Must be unique.
      */
     var name: String? = null
 
