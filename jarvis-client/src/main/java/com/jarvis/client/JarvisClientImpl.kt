@@ -1,9 +1,7 @@
 package com.jarvis.client
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.util.Log
 import androidx.core.content.FileProvider
@@ -28,12 +26,6 @@ internal class JarvisClientImpl(
     override fun pushConfigToJarvisApp(config: JarvisConfig): JarvisPushConfigResult {
 
         log("Pushing config to the Jarvis App.")
-
-        @SuppressLint("QueryPermissionsNeeded")
-        val queryResult = context.packageManager.getInstalledPackages(PackageManager.GET_PROVIDERS)
-            .firstOrNull { it.packageName == JARVIS_APP_PACKAGE }
-        log("- Jarvis App ContentProvider query: ${if (queryResult != null) "Success" else "Failure"}.")
-
         val jarvisConfigFile = writeConfigToFile(config)
         log("- Writing Jarvis config to local file `$jarvisConfigFile`.")
 
