@@ -1,7 +1,6 @@
 package com.jarvis.client
 
 import android.content.Context
-import com.jarvis.client.data.ClientJsonMapper
 import com.jarvis.client.data.JarvisConfig
 import com.jarvis.client.data.builders.jarvisConfig
 import com.jarvis.client.data.builders.JarvisConfigBuilder
@@ -130,6 +129,6 @@ interface JarvisClient {
          */
         @JvmStatic
         fun newInstance(context: Context): JarvisClient =
-            JarvisClientImpl(context.applicationContext, ClientJsonMapper())
+            JarvisClientImpl(context.applicationContext)
     }
 }

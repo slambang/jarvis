@@ -5,10 +5,11 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.*
 import java.lang.IllegalArgumentException
 
-internal class ClientJsonMapper {
-    fun mapToJsonString(config: JarvisConfig): String =
-        Json.encodeToString(config)
-}
+fun <T> JarvisField<T>.toJson(): String =
+    Json.encodeToString(JarvisFieldSerializer, this)
+
+fun JarvisConfig.toJson(): String =
+    Json.encodeToString(this)
 
 /**
  * This is an internal class shared with the Jarvis App. Do not use.
@@ -23,6 +24,6 @@ internal class ClientJsonMapper {
             DoubleField::class.java.simpleName -> DoubleField.serializer()
             BooleanField::class.java.simpleName -> BooleanField.serializer()
             StringListField::class.java.simpleName -> StringListField.serializer()
-            else -> throw IllegalArgumentException("Invalid JarvisField: $element")
+            else -> throw IllegalArgumentException("Invalid field type: $element")
         }
 }

@@ -24,6 +24,6 @@ class AppJsonMapper @Inject constructor() {
         JarvisFieldEntity(
             name = jarvisField.name,
             group = groupName,
-            jsonModel = Json.encodeToString(JarvisFieldSerializer, jarvisField)
+            jsonModel = jarvisField.toJson()
         )
 }

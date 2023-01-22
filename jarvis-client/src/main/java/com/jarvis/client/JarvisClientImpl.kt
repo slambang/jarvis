@@ -5,8 +5,8 @@ import android.content.Intent
 import android.net.Uri
 import android.util.Log
 import androidx.core.content.FileProvider
-import com.jarvis.client.data.ClientJsonMapper
 import com.jarvis.client.data.JarvisConfig
+import com.jarvis.client.data.toJson
 import java.io.File
 import java.io.FileOutputStream
 import java.lang.IllegalArgumentException
@@ -14,7 +14,6 @@ import java.lang.ref.WeakReference
 
 internal class JarvisClientImpl(
     applicationContext: Context,
-    private val jsonMapper: ClientJsonMapper
 ): JarvisClient {
 
     override var loggingEnabled = false
@@ -27,7 +26,7 @@ internal class JarvisClientImpl(
     override fun pushConfigToJarvisApp(config: JarvisConfig): JarvisPushConfigResult {
 
         log("Pushing config to the Jarvis App.")
-        val jarvisConfigFile = writeConfigToFile(config)
+        val jarvisConfigFile = config.writeToFile()
         log("- Writing Jarvis config to local file `$jarvisConfigFile`.")
 
         val jarvisConfigFileUri = try {
@@ -196,14 +195,14 @@ internal class JarvisClientImpl(
         }
     }
 
-    private fun writeConfigToFile(config: JarvisConfig): File {
+    private fun JarvisConfig.writeToFile(): File {
 
         val destinationFile = File(context.cacheDir, "jarvis_config.json").also {
             it.delete()
         }
 
         val fileOutputStream = FileOutputStream(destinationFile)
-        val configInputStream = jsonMapper.mapToJsonString(config).byteInputStream()
+        val configInputStream = this.toJson().byteInputStream()
         configInputStream.copyTo(fileOutputStream)
 
         return destinationFile
