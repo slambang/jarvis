@@ -10,7 +10,9 @@ internal class ClientJsonMapper {
         Json.encodeToString(config)
 }
 
-// Shared with the Jarvis App.
+/**
+ * This is an internal class shared with the Jarvis App. Do not use.
+ */
 /* internal */ object JarvisFieldSerializer :
     JsonContentPolymorphicSerializer<JarvisField<*>>(JarvisField::class) {
 
@@ -21,6 +23,6 @@ internal class ClientJsonMapper {
             DoubleField::class.java.simpleName -> DoubleField.serializer()
             BooleanField::class.java.simpleName -> BooleanField.serializer()
             StringListField::class.java.simpleName -> StringListField.serializer()
-            else -> throw IllegalArgumentException("Unknown JarvisField type: $element")
+            else -> throw IllegalArgumentException("Invalid JarvisField: $element")
         }
 }
