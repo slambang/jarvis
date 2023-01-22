@@ -124,11 +124,13 @@ interface JarvisClient {
     fun getStringListSelection(name: String, lazyDefaultValue: () -> Int): Int
 
     companion object {
+
         /**
          * Creates a new instance of [JarvisClient].
          *
          * @return a new instance of [JarvisClient].
          */
+        @JvmStatic
         fun newInstance(context: Context): JarvisClient =
             JarvisClientImpl(context.applicationContext, ClientJsonMapper())
     }
