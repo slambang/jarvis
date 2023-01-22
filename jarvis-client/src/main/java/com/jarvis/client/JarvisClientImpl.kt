@@ -23,6 +23,7 @@ internal class JarvisClientImpl(
     private val context: Context
         get() = _contextRef.get()!!
 
+    @Synchronized
     override fun pushConfigToJarvisApp(config: JarvisConfig): JarvisPushConfigResult {
 
         log("Pushing config to the Jarvis App.")
@@ -110,33 +111,34 @@ internal class JarvisClientImpl(
         getString(name) { defaultValue }
 
     override fun getString(name: String, lazyDefaultValue: () -> String): String =
-        safeGetConfig(name, lazyDefaultValue, String::toString)
+        safeGetConfigValue(name, lazyDefaultValue, String::toString)
 
     override fun getBoolean(name: String, defaultValue: Boolean): Boolean =
         getBoolean(name) { defaultValue }
 
     override fun getBoolean(name: String, lazyDefaultValue: () -> Boolean): Boolean =
-        safeGetConfig(name, lazyDefaultValue, String::toBoolean)
+        safeGetConfigValue(name, lazyDefaultValue, String::toBoolean)
 
     override fun getLong(name: String, defaultValue: Long): Long =
         getLong(name) { defaultValue }
 
     override fun getLong(name: String, lazyDefaultValue: () -> Long): Long =
-        safeGetConfig(name, lazyDefaultValue, String::toLong)
+        safeGetConfigValue(name, lazyDefaultValue, String::toLong)
 
     override fun getDouble(name: String, defaultValue: Double): Double =
         getDouble(name) { defaultValue }
 
     override fun getDouble(name: String, lazyDefaultValue: () -> Double): Double =
-        safeGetConfig(name, lazyDefaultValue, String::toDouble)
+        safeGetConfigValue(name, lazyDefaultValue, String::toDouble)
 
     override fun getStringListSelection(name: String, defaultValue: Int): Int =
         getStringListSelection(name) { defaultValue }
 
     override fun getStringListSelection(name: String, lazyDefaultValue: () -> Int): Int =
-        safeGetConfig(name, lazyDefaultValue, String::toInt)
+        safeGetConfigValue(name, lazyDefaultValue, String::toInt)
 
-    private fun <T : Any> safeGetConfig(
+    @Synchronized
+    private fun <T : Any> safeGetConfigValue(
         name: String,
         lazyDefaultValue: () -> T,
         toDataType: String.() -> T
