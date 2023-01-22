@@ -20,34 +20,52 @@ class GroupItemViewHolder(
     private val fieldContainer = groupView.findViewById<LinearLayout>(R.id.group_item_field_container)
 
     fun bind(model: ConfigGroupItemViewModel, isActive: Boolean) {
-        groupName.text = model.name
+        setupView(model)
+        addFieldViews(model.fields, isActive)
+    }
 
-        collapseToggle.isVisible = model.isCollapsable
+    private fun addFieldViews(fields: List<FieldItemViewModel<*>>, isActive: Boolean) {
 
-        if (model.isCollapsable) {
-            val getRotation = { if (model.isCollapsed) 180f else 0f }
+        fieldContainer.removeAllViews()
 
-            collapseToggle.rotation = getRotation()
-
-            collapseToggle.setOnClickListener {
-                model.isCollapsed = !model.isCollapsed
-                collapseToggle.animate().setDuration(200).rotation(getRotation())
-                // TODO animate expand/collapse here
-            }
-        }
-
-        model.fields.forEach {
+        fields.forEachIndexed { index, model ->
             val fieldView = View.inflate(groupView.context, R.layout.view_field_list_item, null)
-            bindField(fieldView, it, isActive)
+            addField(fieldView, model, isActive)
             with (fieldContainer) {
-                removeAllViews()
-                addView(fieldView)
+                addView(fieldView, index)
                 requestLayout()
             }
         }
     }
 
-    private fun bindField(fieldView: View, model: FieldItemViewModel<*>, isActive: Boolean) {
+    private fun setupView(model: ConfigGroupItemViewModel) {
+
+        groupName.text = model.name
+
+        val setCollapsedState = {
+            when (model.isCollapsed) {
+                true -> CollapsingAnimator.collapseFields(fieldContainer)
+                false -> CollapsingAnimator.expandFields(fieldContainer)
+            }
+        }
+
+        setCollapsedState()
+        collapseToggle.isVisible = model.isCollapsable
+
+        if (model.isCollapsable) {
+            val getRotation = { if (model.isCollapsed) 0f else 180f }
+
+            collapseToggle.rotation = getRotation()
+
+            groupView.setOnClickListener {
+                model.isCollapsed = !model.isCollapsed
+                setCollapsedState()
+                collapseToggle.animate().setDuration(200).rotation(getRotation())
+            }
+        }
+    }
+
+    private fun addField(fieldView: View, model: FieldItemViewModel<*>, isActive: Boolean) {
 
         val fieldName = fieldView.findViewById<TextView>(R.id.field_list_item_name)
         val fieldValue = fieldView.findViewById<TextView>(R.id.field_list_item_value)
@@ -67,7 +85,7 @@ class GroupItemViewHolder(
 
         when (isActive) {
             true -> fieldView.setOnClickListener { onItemClicked(model) }
-            else -> fieldView.setOnClickListener(null)
+            false -> fieldView.setOnClickListener(null)
         }
     }
 

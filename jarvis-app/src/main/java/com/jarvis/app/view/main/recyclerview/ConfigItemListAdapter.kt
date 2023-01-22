@@ -24,9 +24,8 @@ class ConfigItemListAdapter(
 
     override fun getItemCount() = differ.currentList.size
 
-    fun setGroups(groups: List<ConfigGroupItemViewModel>) {
+    fun setGroups(groups: List<ConfigGroupItemViewModel>): Unit =
         differ.submitList(groups)
-    }
 
     override fun onCreateViewHolder(
         viewGroup: ViewGroup,
@@ -38,7 +37,7 @@ class ConfigItemListAdapter(
             onItemClicked
         )
 
-    override fun onBindViewHolder(viewHolder: GroupItemViewHolder, position: Int) =
+    override fun onBindViewHolder(viewHolder: GroupItemViewHolder, position: Int): Unit =
         viewHolder.bind(differ.currentList[position], !deactivateAllFields)
 }
 

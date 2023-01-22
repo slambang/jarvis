@@ -16,25 +16,18 @@ class MainActivity : AppCompatActivity() {
 
         lockAfterPush = true
 
-        withGroup {
-            name = "Group 1"
-            isCollapsable = true
-            startCollapsed = false
+        for (groupIndex in 0 until 100) {
+            withGroup {
+                name = "Group $groupIndex"
+                isCollapsable = true
+                startCollapsed = true
 
-            withStringField {
-                name = STRING_FIELD_NAME_1
-                value = "Config value 1"
-            }
-        }
-
-        withGroup {
-            name = "Group 2"
-            isCollapsable = true
-            startCollapsed = true
-
-            withStringField {
-                name = STRING_FIELD_NAME_2
-                value = "Config value 2"
+                for (fieldIndex in 0 until 10) {
+                    withStringField {
+                        name = "String $groupIndex-$fieldIndex"
+                        value = "Config value $fieldIndex"
+                    }
+                }
             }
         }
     }
@@ -60,12 +53,7 @@ class MainActivity : AppCompatActivity() {
             /**
              * 4. Read config values
              */
-            textView.text = jarvis.getString(STRING_FIELD_NAME_2, "Default value")
+            textView.text = jarvis.getString("String 1", "Default value")
         }
-    }
-
-    companion object {
-        private const val STRING_FIELD_NAME_1 = "String 1"
-        private const val STRING_FIELD_NAME_2 = "String 2"
     }
 }
