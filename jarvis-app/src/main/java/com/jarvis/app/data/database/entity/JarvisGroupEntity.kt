@@ -5,14 +5,14 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class JarvisFieldEntity(
+data class JarvisGroupEntity(
     @PrimaryKey
     @ColumnInfo
     val name: String,
 
     @ColumnInfo
-    val groupName: String,
+    val isCollapsable: Boolean,
 
     @ColumnInfo
-    val jsonModel: String,
+    val startCollapsed: Boolean
 )

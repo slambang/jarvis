@@ -60,10 +60,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun onConfigsReceived(configItems: List<FieldItemViewModel<*>>) {
+    private fun onConfigsReceived(configItems: List<ConfigGroupItemViewModel>) {
         emptyView.isVisible = configItems.isEmpty()
         recyclerView.isVisible = configItems.isNotEmpty()
-        configListAdapter.setFields(configItems)
+        if (configItems.isNotEmpty()) configListAdapter.setFields(configItems[0].fields)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

@@ -6,8 +6,10 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.jarvis.app.data.database.dao.JarvisFieldDao
+import com.jarvis.app.data.database.dao.JarvisGroupDao
 import com.jarvis.app.data.database.dao.JarvisSettingsDao
 import com.jarvis.app.data.database.entity.JarvisFieldEntity
+import com.jarvis.app.data.database.entity.JarvisGroupEntity
 import com.jarvis.app.data.database.entity.JarvisSettingsEntity
 
 @Database(
@@ -15,14 +17,14 @@ import com.jarvis.app.data.database.entity.JarvisSettingsEntity
     exportSchema = false,
     entities = [
         JarvisFieldEntity::class,
+        JarvisGroupEntity::class,
         JarvisSettingsEntity::class
     ]
 )
 abstract class JarvisDatabase : RoomDatabase() {
 
-
     abstract val jarvisFieldDao: JarvisFieldDao
-
+    abstract val jarvisGroupDao: JarvisGroupDao
     abstract val jarvisSettingsDao: JarvisSettingsDao
 
     companion object {

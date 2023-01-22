@@ -2,26 +2,26 @@ package com.jarvis.app.domain.usecases
 
 import com.jarvis.app.data.AppJsonMapper
 import com.jarvis.app.data.database.dao.JarvisFieldDao
-import com.jarvis.app.domain.fields.JarvisFieldRepository
+import com.jarvis.app.di.BackgroundCoroutine
 import com.jarvis.client.data.*
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class UpdateFieldUseCase @Inject constructor(
     private val jsonMapper: AppJsonMapper,
     private val jarvisFieldDao: JarvisFieldDao,
-    private val jarvisFieldRepository: JarvisFieldRepository
+    @BackgroundCoroutine private val coroutineDispatcher: CoroutineDispatcher
 ) {
     suspend operator fun invoke(
         field: JarvisField<*>,
         newValue: Any,
         isPublished: Boolean
-    ): Unit = withContext(Dispatchers.IO) {
+    ): Unit = withContext(coroutineDispatcher) {
         val updatedField = updateField(field, newValue, isPublished)
-        val fieldGroupName = jarvisFieldDao.getGroup(field.name)
+        val fieldGroupName = jarvisFieldDao.getField(field.name).groupName
         val entity = jsonMapper.mapToJarvisFieldEntity(fieldGroupName, updatedField)
-        jarvisFieldRepository.updateField(entity)
+        jarvisFieldDao.updateField(entity)
     }
 
     private fun updateField(

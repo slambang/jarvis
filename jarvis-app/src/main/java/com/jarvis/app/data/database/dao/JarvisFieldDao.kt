@@ -13,11 +13,11 @@ interface JarvisFieldDao {
     @Query("SELECT * FROM JarvisFieldEntity")
     fun getAllFields(): Flow<List<JarvisFieldEntity>>
 
-    @Query("SELECT * from JarvisFieldEntity WHERE name is :name")
-    fun getField(name: String): JarvisFieldEntity?
+    @Query("SELECT * from JarvisFieldEntity WHERE `name` is :name")
+    fun getField(name: String): JarvisFieldEntity
 
-    @Query("SELECT `group` from JarvisFieldEntity WHERE name is :fieldName")
-    fun getGroup(fieldName: String): String
+    @Query("SELECT * FROM JarvisFieldEntity WHERE `groupName` is :groupName")
+    fun getAllFieldsForGroup(groupName: String): List<JarvisFieldEntity>
 
     @Insert
     fun insertField(jarvisFieldEntity: JarvisFieldEntity)
