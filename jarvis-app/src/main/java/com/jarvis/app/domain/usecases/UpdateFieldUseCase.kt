@@ -1,6 +1,7 @@
 package com.jarvis.app.domain.usecases
 
 import com.jarvis.app.data.AppJsonMapper
+import com.jarvis.app.data.database.dao.JarvisFieldDao
 import com.jarvis.app.domain.fields.JarvisFieldRepository
 import com.jarvis.client.data.*
 import kotlinx.coroutines.Dispatchers
@@ -9,19 +10,21 @@ import javax.inject.Inject
 
 class UpdateFieldUseCase @Inject constructor(
     private val jsonMapper: AppJsonMapper,
+    private val jarvisFieldDao: JarvisFieldDao,
     private val jarvisFieldRepository: JarvisFieldRepository
 ) {
     suspend operator fun invoke(
-        jarvisField: JarvisField<*>,
+        field: JarvisField<*>,
         newValue: Any,
         isPublished: Boolean
     ): Unit = withContext(Dispatchers.IO) {
-        val updatedDomain = updateDomain(jarvisField, newValue, isPublished)
-        val entity = jsonMapper.mapToJarvisFieldEntity(updatedDomain)
+        val updatedField = updateField(field, newValue, isPublished)
+        val fieldGroupName = jarvisFieldDao.getGroup(field.name)
+        val entity = jsonMapper.mapToJarvisFieldEntity(fieldGroupName, updatedField)
         jarvisFieldRepository.updateField(entity)
     }
 
-    private fun updateDomain(
+    private fun updateField(
         jarvisField: JarvisField<*>,
         newValue: Any,
         isPublished: Boolean

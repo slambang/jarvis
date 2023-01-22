@@ -11,5 +11,8 @@ data class JarvisFieldEntity(
     val name: String,
 
     @ColumnInfo
-    val jsonModel: String
+    val group: String,
+
+    @ColumnInfo
+    val jsonModel: String,
 )

@@ -16,6 +16,9 @@ interface JarvisFieldDao {
     @Query("SELECT * from JarvisFieldEntity WHERE name is :name")
     fun getField(name: String): JarvisFieldEntity?
 
+    @Query("SELECT `group` from JarvisFieldEntity WHERE name is :fieldName")
+    fun getGroup(fieldName: String): String
+
     @Insert
     fun insertField(jarvisFieldEntity: JarvisFieldEntity)
 

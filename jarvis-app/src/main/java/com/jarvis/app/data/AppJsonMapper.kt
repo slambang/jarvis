@@ -17,9 +17,13 @@ class AppJsonMapper @Inject constructor() {
     fun mapJarvisFieldDomain(jarvisFieldEntity: JarvisFieldEntity): JarvisField<Any> =
         Json.decodeFromString(JarvisFieldSerializer, jarvisFieldEntity.jsonModel) as JarvisField<Any>
 
-    fun mapToJarvisFieldEntity(jarvisField: JarvisField<*>): JarvisFieldEntity =
+    fun mapToJarvisFieldEntity(
+        groupName: String,
+        jarvisField: JarvisField<*>
+    ): JarvisFieldEntity =
         JarvisFieldEntity(
             name = jarvisField.name,
+            group = groupName,
             jsonModel = Json.encodeToString(JarvisFieldSerializer, jarvisField)
         )
 }

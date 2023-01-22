@@ -1,6 +1,8 @@
 package com.jarvis.app.domain.usecases
 
 import com.jarvis.app.data.AppJsonMapper
+import com.jarvis.app.data.database.dao.JarvisFieldDao
+import com.jarvis.app.data.database.entity.JarvisFieldEntity
 import com.jarvis.app.domain.fields.JarvisFieldRepository
 import com.jarvis.client.data.JarvisConfig
 import java.io.InputStream
@@ -12,7 +14,14 @@ class RefreshConfigUseCase @Inject constructor(
 ) {
     operator fun invoke(inputStream: InputStream): JarvisConfig {
         val jarvisConfig = jsonMapper.readConfig(inputStream)
-        val fieldEntities = jarvisConfig.groups[0].fields.map(jsonMapper::mapToJarvisFieldEntity)
+        val fieldEntities = mutableListOf<JarvisFieldEntity>()
+
+        jarvisConfig.groups.forEach { group ->
+            fieldEntities.addAll(group.fields.map { field ->
+                jsonMapper.mapToJarvisFieldEntity(group.name, field)
+            })
+        }
+
         jarvisFieldRepository.refreshConfig(fieldEntities)
         return jarvisConfig
     }
