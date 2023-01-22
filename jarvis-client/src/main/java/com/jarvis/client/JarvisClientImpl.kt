@@ -12,15 +12,13 @@ import java.io.FileOutputStream
 import java.lang.IllegalArgumentException
 import java.lang.ref.WeakReference
 
-internal class JarvisClientImpl(
-    applicationContext: Context,
-): JarvisClient {
+internal class JarvisClientImpl(context: Context): JarvisClient {
 
     override var loggingEnabled = false
 
-    private val _contextRef = WeakReference(applicationContext)
+    private val _contextRef = WeakReference(context.applicationContext)
     private val context: Context
-        get() = _contextRef.get()!! // Should be safe because we're passed the Application Context
+        get() = _contextRef.get()!! // Should be safe because context.applicationContext above
 
     @Synchronized
     override fun pushConfigToJarvisApp(config: JarvisConfig): JarvisPushConfigResult {

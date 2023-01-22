@@ -129,6 +129,6 @@ interface JarvisClient {
          */
         @JvmStatic
         fun newInstance(context: Context): JarvisClient =
-            JarvisClientImpl(context.applicationContext)
+            JarvisClientImpl(context)
     }
 }
