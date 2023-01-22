@@ -126,8 +126,6 @@ interface JarvisClient {
     companion object {
 
         /**
-         * Creates a new instance of [JarvisClient].
-         *
          * @return a new instance of [JarvisClient].
          */
         @JvmStatic
