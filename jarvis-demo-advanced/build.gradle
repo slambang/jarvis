@@ -5,7 +5,7 @@ plugins {
 
 android {
     compileSdkVersion maximum_supported_android_version
-    buildToolsVersion buildToolsVersion
+    buildToolsVersion build_tools_version
 
     defaultConfig {
         applicationId "com.jarvis.demo.advanced"
@@ -35,9 +35,8 @@ android {
 }
 
 dependencies {
-    // Note: The Jarvis Client dependency is only included in *debug* builds.
+    // Note: The Jarvis Client dependency is only included in debug builds
     debugImplementation project(":jarvis-client")
 
-    implementation "com.google.android.material:material:1.7.0"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
+    implementation "com.google.android.material:material:$material_version"
 }
