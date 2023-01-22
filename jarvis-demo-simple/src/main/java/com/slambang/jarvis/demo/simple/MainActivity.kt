@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity() {
      */
     private val config = jarvisConfig {
 
-        withLockAfterPush = true
+        lockAfterPush = true
 
         withGroup {
             name = "My config group"
@@ -43,10 +43,7 @@ class MainActivity : AppCompatActivity() {
         /**
          * 3. Push your app's config to the Jarvis App
          */
-        with (jarvis) {
-            loggingEnabled = true
-            pushConfigToJarvisApp(config)
-        }
+        jarvis.pushConfigToJarvisApp(config)
 
         button.setOnClickListener {
             /**

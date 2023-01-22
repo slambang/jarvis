@@ -20,6 +20,7 @@ interface JarvisClient {
     /**
      * Enable/disable the JarvisClient internal logging.
      * Useful for debugging Jarvis client/app integration issues.
+     * Enabled by default.
      */
     var loggingEnabled: Boolean
 

@@ -24,7 +24,7 @@ class DebugConfigRepository(
          */
         val config = jarvisConfig {
 
-            withLockAfterPush = true
+            lockAfterPush = true
 
             withGroup {
                 name = "My config group"
@@ -41,10 +41,7 @@ class DebugConfigRepository(
         /**
          * Step 2: Push the config to the Jarvis App
          */
-        with (jarvis) {
-            loggingEnabled = true
-            pushConfigToJarvisApp(config)
-        }
+        jarvis.pushConfigToJarvisApp(config)
     }
 
     /**

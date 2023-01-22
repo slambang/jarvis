@@ -26,7 +26,7 @@ class JarvisConfigBuilder {
      * If this value is true then Jarvis will automatically lock after receiving a new config.
      * If this value is false then Jarvis will remain unlocked after receiving a new config.
      */
-    var withLockAfterPush = true
+    var lockAfterPush = true
 
     private val groups = mutableListOf<JarvisConfigGroup>()
 
@@ -39,7 +39,7 @@ class JarvisConfigBuilder {
         addGroup(GroupBuilder().apply(block).build())
 
     internal fun build(): JarvisConfig =
-        JarvisConfig(withLockAfterPush, groups)
+        JarvisConfig(lockAfterPush, groups)
 
     private fun addGroup(group: JarvisConfigGroup) {
         groups.find { it.name == group.name }?.let {

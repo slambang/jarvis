@@ -14,7 +14,7 @@ import java.lang.ref.WeakReference
 
 internal class JarvisClientImpl(context: Context): JarvisClient {
 
-    override var loggingEnabled = false
+    override var loggingEnabled = true
 
     private val _contextRef = WeakReference(context.applicationContext)
     private val context: Context
