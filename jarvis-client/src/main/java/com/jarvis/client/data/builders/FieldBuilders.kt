@@ -51,8 +51,8 @@ class StringFieldBuilder : BaseFieldBuilder<String>() {
         StringField(
             StringField::class.java.simpleName,
             name,
-            value!!,
-            value!!,
+            value.assertNotNull(),
+            value.assertNotNull(),
             description,
             isPublished = true,
             hint,
@@ -88,8 +88,8 @@ class LongFieldBuilder : BaseFieldBuilder<Long>() {
         LongField(
             LongField::class.java.simpleName,
             name,
-            value!!,
-            value!!,
+            value.assertNotNull(),
+            value.assertNotNull(),
             description,
             isPublished = true,
             hint,
@@ -125,8 +125,8 @@ class DoubleFieldBuilder : BaseFieldBuilder<Double>() {
         DoubleField(
             DoubleField::class.java.simpleName,
             name,
-            value!!,
-            value!!,
+            value.assertNotNull(),
+            value.assertNotNull(),
             description,
             isPublished = true,
             hint,
@@ -142,8 +142,8 @@ class BooleanFieldBuilder : BaseFieldBuilder<Boolean>() {
         BooleanField(
             BooleanField::class.java.simpleName,
             name,
-            value!!,
-            value!!,
+            value.assertNotNull(),
+            value.assertNotNull(),
             description,
             isPublished = true
         )
@@ -160,11 +160,17 @@ class StringListFieldBuilder : BaseFieldBuilder<List<String>>() {
         StringListField(
             StringListField::class.java.simpleName,
             name,
-            value!!,
-            value!!,
+            value.assertNotNull(),
+            value.assertNotNull(),
             description,
             isPublished = true,
             defaultSelection,
             defaultSelection
         )
 }
+
+private fun <T> T?.assertNotNull(): T =
+    when (this) {
+        null -> throw IllegalArgumentException("Jarvis field values cannot be null.")
+        else -> this
+    }
