@@ -171,6 +171,6 @@ class StringListFieldBuilder : BaseFieldBuilder<List<String>>() {
 
 private fun <T> T?.assertNotNull(): T =
     when (this) {
-        null -> throw IllegalArgumentException("Jarvis field values cannot be null.")
+        null -> throw IllegalArgumentException("Field values cannot be null.")
         else -> this
     }

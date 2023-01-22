@@ -73,13 +73,13 @@ class GroupBuilder {
 
     internal fun build(): JarvisConfigGroup =
         when (name) {
-            null -> throw IllegalArgumentException("All Jarvis groups must have a name.")
+            null -> throw IllegalArgumentException("All groups must have a name.")
             else -> JarvisConfigGroup(name!!, isCollapsable, startCollapsed, fields)
         }
 
     private fun addField(field: JarvisField<Any>) {
         fields.find { it.name == field.name }?.let {
-            throw IllegalStateException("Duplicate Jarvis field name `${it.name}`.")
+            throw IllegalStateException("Duplicate field name `${it.name}`.")
         }
         fields.add(field)
     }

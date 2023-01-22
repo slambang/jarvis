@@ -7,7 +7,8 @@ import java.lang.IllegalStateException
 
 /**
  * Creates a [JarvisConfigBuilder] and calls the function block on it.
- * Once the function block returns [JarvisConfigBuilder.build] is called.
+ *
+ * @return a new [JarvisConfig] instance
  */
 fun jarvisConfig(block: JarvisConfigBuilder.() -> Unit): JarvisConfig =
     JarvisConfigBuilder().apply(block).build()
@@ -42,7 +43,7 @@ class JarvisConfigBuilder {
 
     private fun addGroup(group: JarvisConfigGroup) {
         groups.find { it.name == group.name }?.let {
-            throw IllegalStateException("Duplicate Jarvis group name `${it.name}`.")
+            throw IllegalStateException("Duplicate group name `${it.name}`.")
         }
         groups.add(group)
     }

@@ -20,13 +20,13 @@ interface JarvisClient {
 
     /**
      * Enable/disable the JarvisClient internal logging.
-     * Useful for debugging integration issues.
+     * Useful for debugging Jarvis client/app integration issues.
      */
     var loggingEnabled: Boolean
 
     /**
      * Pushes your app's Jarvis config to the Jarvis App.
-     * Note that the Jarvis App must be in an *unlocked* state to accept new configs.
+     * Note that the Jarvis App must be *installed* and *unlocked* state to accept new configs.
      * @see [JarvisConfigBuilder] to create a config.
      *
      * @return [JarvisPushConfigResult] indicating the push operation result
@@ -126,7 +126,7 @@ interface JarvisClient {
     companion object {
 
         /**
-         * @return a new instance of [JarvisClient].
+         * @return a new instance of [JarvisClient]
          */
         @JvmStatic
         fun newInstance(context: Context): JarvisClient =

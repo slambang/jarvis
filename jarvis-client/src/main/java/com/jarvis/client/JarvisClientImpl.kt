@@ -21,7 +21,7 @@ internal class JarvisClientImpl(
 
     private val _contextRef = WeakReference(applicationContext)
     private val context: Context
-        get() = _contextRef.get()!!
+        get() = _contextRef.get()!! // Should be safe because we're passed the Application Context
 
     @Synchronized
     override fun pushConfigToJarvisApp(config: JarvisConfig): JarvisPushConfigResult {
