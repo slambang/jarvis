@@ -3,7 +3,6 @@ package com.jarvis.app.view.main
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.text.Spanned
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -12,11 +11,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
-import androidx.core.text.HtmlCompat
 import androidx.core.view.MenuCompat
 import androidx.core.view.isVisible
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.jarvis.app.R
@@ -25,14 +21,13 @@ import com.jarvis.app.view.main.recyclerview.ConfigItemListAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainActivityViewModel by viewModels()
 
     @Inject
-    lateinit var editFieldDialogFactory: EditFieldDialogFactory
+    lateinit var getEditFieldDialog: EditFieldDialogFactory
 
     private lateinit var configListAdapter: ConfigItemListAdapter
 
@@ -59,14 +54,13 @@ class MainActivity : AppCompatActivity() {
 
         recyclerView = findViewById<RecyclerView>(R.id.config_item_list).apply {
             adapter = configListAdapter
-            addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
         }
     }
 
-    private fun onConfigsReceived(configItems: List<FieldItemViewModel<*>>) {
+    private fun onConfigsReceived(configItems: List<ConfigGroupItemViewModel>) {
         emptyView.isVisible = configItems.isEmpty()
         recyclerView.isVisible = configItems.isNotEmpty()
-        configListAdapter.setFields(configItems)
+        configListAdapter.setGroups(configItems)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -75,18 +69,12 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.menuState.observe(this) {
             configListAdapter.deactivateAllFields = !it.isActive
-            toolbar.subtitle = styleSubtitle(it)
+            toolbar.subtitle = it.toolbarSubtitle
             menu.findItem(R.id.menu_lock).isChecked = it.isLocked
             menu.findItem(R.id.menu_active).isChecked = it.isActive
         }
         return true
     }
-
-    private fun styleSubtitle(menuModel: MainMenuViewModel): Spanned =
-        when (menuModel.isActive) {
-            true -> fromHtml(menuModel.toolbarSubtitle)
-            false -> fromHtml("<font color='#FF0000'>${menuModel.toolbarSubtitle}</font>")
-        }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean =
         when (item.itemId) {
@@ -137,20 +125,17 @@ class MainActivity : AppCompatActivity() {
     private fun showEditFieldDialog(item: FieldItemViewModel<*>) {
         if (alertDialog != null) return
 
-        fun onDismiss() {
+        fun onDialogDismiss() {
             alertDialog?.dismiss()
             alertDialog = null
         }
 
-        fun onFieldUpdated(newValue: Any, isPublished: Boolean) {
+        fun onFieldUpdate(newValue: Any, isPublished: Boolean) {
             viewModel.updateFieldValue(item, newValue, isPublished)
         }
 
-        alertDialog =
-            editFieldDialogFactory.getEditFieldDialog(item, this, ::onDismiss, ::onFieldUpdated)
-                .also {
-                    it.show()
-                }
+        alertDialog = getEditFieldDialog(item, this, ::onDialogDismiss, ::onFieldUpdate)
+            .also { it.show() }
     }
 
     private fun showHelp() {
@@ -158,7 +143,4 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(Intent.ACTION_VIEW, uri)
         startActivity(intent)
     }
-
-    private fun fromHtml(source: String): Spanned =
-        HtmlCompat.fromHtml(source, HtmlCompat.FROM_HTML_MODE_LEGACY)
 }

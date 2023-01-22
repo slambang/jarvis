@@ -6,7 +6,7 @@ plugins {
 android {
     namespace 'com.slambang.jarvis.demo.simple'
     compileSdkVersion maximum_supported_android_version
-    buildToolsVersion buildToolsVersion
+    buildToolsVersion build_tools_version
 
     defaultConfig {
         minSdkVersion minimum_supported_android_version
@@ -24,8 +24,7 @@ android {
 }
 
 dependencies {
-    implementation 'com.github.slambang:jarvis:v1.0.3'
+    implementation project(":jarvis-client")
 
-    implementation "com.google.android.material:material:1.7.0"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
+    implementation "com.google.android.material:material:$material_version"
 }

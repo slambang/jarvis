@@ -5,7 +5,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.jarvis.client.JarvisClient
-import com.jarvis.client.data.jarvisConfig
+import com.jarvis.client.data.builders.jarvisConfig
 
 class MainActivity : AppCompatActivity() {
 
@@ -14,11 +14,21 @@ class MainActivity : AppCompatActivity() {
      */
     private val config = jarvisConfig {
 
-        withLockAfterPush = true
+        lockAfterPush = true
 
-        withStringField {
-            name = STRING_FIELD_NAME
-            value = "Config value"
+        for (groupIndex in 0 until 100) {
+            withGroup {
+                name = "Group $groupIndex"
+                isCollapsable = true
+                startCollapsed = true
+
+                for (fieldIndex in 0 until 10) {
+                    withStringField {
+                        name = "String $groupIndex-$fieldIndex"
+                        value = "Config value $fieldIndex"
+                    }
+                }
+            }
         }
     }
 
@@ -37,20 +47,13 @@ class MainActivity : AppCompatActivity() {
         /**
          * 3. Push your app's config to the Jarvis App
          */
-        with (jarvis) {
-            loggingEnabled = true
-            pushConfigToJarvisApp(config)
-        }
+        jarvis.pushConfigToJarvisApp(config)
 
         button.setOnClickListener {
             /**
              * 4. Read config values
              */
-            textView.text = jarvis.getString(STRING_FIELD_NAME, "Default value")
+            textView.text = jarvis.getString("String 1", "Default value")
         }
-    }
-
-    companion object {
-        private const val STRING_FIELD_NAME = "String field (simple demo)"
     }
 }

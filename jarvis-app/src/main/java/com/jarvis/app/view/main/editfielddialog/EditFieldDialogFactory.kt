@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 class EditFieldDialogFactory @Inject constructor() {
 
-    fun getEditFieldDialog(
+    operator fun invoke(
         item: FieldItemViewModel<*>,
         context: Context,
         onDismiss: () -> Unit,

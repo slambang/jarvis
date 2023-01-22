@@ -4,17 +4,24 @@ import androidx.annotation.Keep
 import kotlinx.serialization.Polymorphic
 import kotlinx.serialization.Serializable
 
-// TODO Be consistent with <Any>
 @Keep
 @Serializable
 data class JarvisConfig(
-    var lockAfterPush: Boolean,
+    val lockAfterPush: Boolean,
+    val groups: List<JarvisConfigGroup>
+)
+
+@Keep
+@Serializable
+data class JarvisConfigGroup(
+    val name: String,
+    val isCollapsable: Boolean,
+    val startCollapsed: Boolean,
     val fields: List<JarvisField<@Polymorphic Any>>
 )
 
-// TODO How/Can we automatically get "type" discriminator?
 @Keep
-@Serializable(with = JarvisFieldSerializer::class)
+@Serializable(with = JarvisInternalFieldSerializer::class)
 sealed class JarvisField<T> {
     abstract val type: String
     abstract val name: String

@@ -8,6 +8,13 @@ data class MainMenuViewModel(
     val isLocked: Boolean
 )
 
+data class ConfigGroupItemViewModel(
+    val name: String,
+    val isCollapsable: Boolean,
+    var isCollapsed: Boolean,
+    val fields: List<FieldItemViewModel<*>>
+)
+
 sealed class FieldItemViewModel<T : Any> {
     abstract val name: String
     abstract val description: String?

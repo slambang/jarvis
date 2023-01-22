@@ -36,15 +36,22 @@ class MainModelMapper @Inject constructor(
         )
     }
 
-    fun mapToConfigItems(domains: List<JarvisField<*>>): List<FieldItemViewModel<*>> =
-        domains.map {
-            when (it) {
-                is StringField -> mapStringField(it)
-                is LongField -> mapLongField(it)
-                is DoubleField -> mapDoubleField(it)
-                is BooleanField -> mapBooleanField(it)
-                is StringListField -> mapStringListField(it)
-            }
+    fun mapToConfigItems(domains: List<JarvisConfigGroup>): List<ConfigGroupItemViewModel> =
+        domains.map { groupDomain ->
+            ConfigGroupItemViewModel(
+                name = groupDomain.name,
+                isCollapsable = groupDomain.isCollapsable,
+                isCollapsed = groupDomain.startCollapsed,
+                fields = (groupDomain.fields as List<JarvisField<*>>).map { fieldDomain ->
+                    when (fieldDomain) {
+                        is StringField -> mapStringField(fieldDomain)
+                        is LongField -> mapLongField(fieldDomain)
+                        is DoubleField -> mapDoubleField(fieldDomain)
+                        is BooleanField -> mapBooleanField(fieldDomain)
+                        is StringListField -> mapStringListField(fieldDomain)
+                    }
+                }
+            )
         }
 
     private fun mapStringField(field: StringField): StringFieldItemViewModel =

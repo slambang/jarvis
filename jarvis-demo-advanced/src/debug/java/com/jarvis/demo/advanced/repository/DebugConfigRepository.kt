@@ -2,17 +2,18 @@ package com.jarvis.demo.advanced.repository
 
 import android.content.Context
 import com.jarvis.client.JarvisClient
-import com.jarvis.client.data.jarvisConfig
+import com.jarvis.client.data.builders.jarvisConfig
 import com.jarvis.demo.advanced.ConfigRepository
+
+/**
+ * This file is only seen by the debug build variant
+ */
 
 fun injectRepository(context: Context): ConfigRepository =
     DebugConfigRepository(
         JarvisClient.newInstance(context)
     )
 
-/**
- * Only seen by the `debug` build variant
- */
 class DebugConfigRepository(
     private val jarvis: JarvisClient
 ) : ConfigRepository {
@@ -23,25 +24,28 @@ class DebugConfigRepository(
          */
         val config = jarvisConfig {
 
-            withLockAfterPush = true
+            lockAfterPush = true
 
-            withStringField {
-                name = STRING_FIELD_NAME
-                value = "Config value"
+            withGroup {
+                name = "My config group"
+                isCollapsable = true
+                startCollapsed = false
+
+                withStringField {
+                    name = STRING_FIELD_NAME
+                    value = "Config value"
+                }
             }
         }
 
         /**
          * Step 2: Push the config to the Jarvis App
          */
-        with (jarvis) {
-            loggingEnabled = true
-            pushConfigToJarvisApp(config)
-        }
+        jarvis.pushConfigToJarvisApp(config)
     }
 
     /**
-     * Step 3: Read the value
+     * Step 3: Returns the debug string value
      */
     override fun getStringValue(): String =
         jarvis.getString(STRING_FIELD_NAME, "Default value")

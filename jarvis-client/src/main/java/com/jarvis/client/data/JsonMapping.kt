@@ -3,15 +3,19 @@ package com.jarvis.client.data
 import kotlinx.serialization.DeserializationStrategy
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.*
-import java.lang.RuntimeException
+import java.lang.IllegalArgumentException
 
-internal class ClientJsonMapper {
-    fun mapToJsonString(config: JarvisConfig): String =
-        Json.encodeToString(config)
-}
+/**
+ * This is an internal file shared with the Jarvis App. Do not use.
+ */
 
-// Internal (shared with the Jarvis App).
-object JarvisFieldSerializer :
+/* internal */ fun <T> JarvisField<T>.toJson(): String =
+    Json.encodeToString(JarvisInternalFieldSerializer, this)
+
+/* internal */ fun JarvisConfig.toJson(): String =
+    Json.encodeToString(this)
+
+/* internal */ object JarvisInternalFieldSerializer :
     JsonContentPolymorphicSerializer<JarvisField<*>>(JarvisField::class) {
 
     override fun selectDeserializer(element: JsonElement): DeserializationStrategy<out JarvisField<*>> =
@@ -21,6 +25,6 @@ object JarvisFieldSerializer :
             DoubleField::class.java.simpleName -> DoubleField.serializer()
             BooleanField::class.java.simpleName -> BooleanField.serializer()
             StringListField::class.java.simpleName -> StringListField.serializer()
-            else -> throw RuntimeException("Unknown JarvisField type: $element")
+            else -> throw IllegalArgumentException("Invalid field type: $element")
         }
 }

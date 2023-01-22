@@ -23,5 +23,6 @@ abstract class ReadOnlyContentProvider : ContentProvider() {
         selectionArgs: Array<out String>?
     ): Int = unsupported()
 
-    private fun unsupported(): Nothing = throw UnsupportedOperationException("Unsupported.")
+    private fun unsupported(): Nothing =
+        throw UnsupportedOperationException("Unsupported.")
 }

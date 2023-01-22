@@ -1,12 +1,29 @@
-package com.jarvis.client.data
+@file:Suppress("MemberVisibilityCanBePrivate")
+
+package com.jarvis.client.data.builders
+
+import com.jarvis.client.data.*
 
 abstract class BaseFieldBuilder<T> {
+
+    /**
+     * The name of the field. Must be unique.
+     */
     lateinit var name: String
+
+    /**
+     * The value of the field.
+     */
     var value: T? = null
+
+    /**
+     * The user-friendly description of the field.
+     */
     var description: String? = null
+
+    internal abstract fun build(): JarvisField<T>
 }
 
-@JarvisDsl
 class StringFieldBuilder : BaseFieldBuilder<String>() {
 
     /**
@@ -29,12 +46,12 @@ class StringFieldBuilder : BaseFieldBuilder<String>() {
      */
     var regex: String? = null
 
-    fun build(): JarvisField<String> =
+    override fun build(): JarvisField<String> =
         StringField(
             StringField::class.java.simpleName,
             name,
-            value!!,
-            value!!,
+            value.assertNotNull(),
+            value.assertNotNull(),
             description,
             isPublished = true,
             hint,
@@ -44,7 +61,6 @@ class StringFieldBuilder : BaseFieldBuilder<String>() {
         )
 }
 
-@JarvisDsl
 class LongFieldBuilder : BaseFieldBuilder<Long>() {
 
     /**
@@ -67,12 +83,12 @@ class LongFieldBuilder : BaseFieldBuilder<Long>() {
      */
     var asRange: Boolean = false
 
-    fun build(): LongField =
+    override fun build(): LongField =
         LongField(
             LongField::class.java.simpleName,
             name,
-            value!!,
-            value!!,
+            value.assertNotNull(),
+            value.assertNotNull(),
             description,
             isPublished = true,
             hint,
@@ -82,7 +98,6 @@ class LongFieldBuilder : BaseFieldBuilder<Long>() {
         )
 }
 
-@JarvisDsl
 class DoubleFieldBuilder : BaseFieldBuilder<Double>() {
 
     /**
@@ -105,12 +120,12 @@ class DoubleFieldBuilder : BaseFieldBuilder<Double>() {
      */
     var asRange: Boolean = false
 
-    fun build(): DoubleField =
+    override fun build(): DoubleField =
         DoubleField(
             DoubleField::class.java.simpleName,
             name,
-            value!!,
-            value!!,
+            value.assertNotNull(),
+            value.assertNotNull(),
             description,
             isPublished = true,
             hint,
@@ -120,21 +135,19 @@ class DoubleFieldBuilder : BaseFieldBuilder<Double>() {
         )
 }
 
-@JarvisDsl
 class BooleanFieldBuilder : BaseFieldBuilder<Boolean>() {
 
-    fun build(): BooleanField =
+    override fun build(): BooleanField =
         BooleanField(
             BooleanField::class.java.simpleName,
             name,
-            value!!,
-            value!!,
+            value.assertNotNull(),
+            value.assertNotNull(),
             description,
             isPublished = true
         )
 }
 
-@JarvisDsl
 class StringListFieldBuilder : BaseFieldBuilder<List<String>>() {
 
     /**
@@ -142,15 +155,21 @@ class StringListFieldBuilder : BaseFieldBuilder<List<String>>() {
      */
     var defaultSelection = 0
 
-    fun build(): StringListField =
+    override fun build(): StringListField =
         StringListField(
             StringListField::class.java.simpleName,
             name,
-            value!!,
-            value!!,
+            value.assertNotNull(),
+            value.assertNotNull(),
             description,
             isPublished = true,
             defaultSelection,
             defaultSelection
         )
 }
+
+private fun <T> T?.assertNotNull(): T =
+    when (this) {
+        null -> throw IllegalArgumentException("Field values cannot be null.")
+        else -> this
+    }
